@@ -1,15 +1,12 @@
 package com.wyer.server.controller;
 
-import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate;
 import com.wyer.server.common.Result;
 import com.wyer.server.entity.User;
 import com.wyer.server.service.UserServiceImpl;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 
 /**
