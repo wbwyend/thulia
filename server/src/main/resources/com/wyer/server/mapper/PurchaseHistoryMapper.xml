@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyer.server.mapper.PurchaseHistoryMapper">
+    <insert id="batchInsertPurchaseHistory">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            insert into purchase_history (uid, sid, gid, number, total, oid) values (#{item.uid}, #{item.sid}, #{item.gid},#{item.number}, #{item.total}, #{item.oid})
+        </foreach>
+    </insert>
+</mapper>

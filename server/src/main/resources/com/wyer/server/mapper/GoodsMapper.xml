@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyer.server.mapper.GoodsMapper">
+    <update id="batchDeleteShopGoods">
+        update goods set onsale = 'false' where gid in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="batchListShopGoods">
+        update goods set onsale = 'true' where gid in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </update>
+    <select id="selectGoodsNameByGidList">
+        select * from goods where gid in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+    <update id="updateSurplusByPurchase">
+        <foreach collection="list" item="item" open="" close="" index="index">
+            update goods
+            <set>
+                surplus = surplus - ${item.number}
+            </set>
+            where gid = ${item.gid}
+        </foreach>
+    </update>
+    <update id="updateAddSurplusByDeleteOrder">
+        <foreach collection="list" item="item" open="" close="" index="index">
+            update goods
+            <set>
+                surplus = surplus + ${item.number}
+            </set>
+            where gid = ${item.gid}
+        </foreach>
+    </update>
+</mapper>

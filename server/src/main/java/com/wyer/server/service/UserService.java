@@ -1,29 +1,21 @@
 package com.wyer.server.service;
 
+import com.wyer.server.common.Password;
+import com.wyer.server.entity.Shop;
 import com.wyer.server.entity.User;
 
-import java.util.List;
-
 /**
- * Function:
+ * Function: 用户服务类
  * Writer: wyer
  * Date: 2023/09/17 14:31
  **/
 public interface UserService {
-    void insertUser(User user);
 
-    void updateUser(User user);
+    User login(User user);
 
-    void deleteUser(Integer id);
+    void register(User user);
 
-    List<User> select();
+    User modify(User user);
 
-    List<User> select(Integer id);
-
-    List<User> select(String username, String name);
-
-    List<User> select(String name);
-
-    void deleteUsers(List<Integer> ids);
-
+    User modify(Password password);
 }
