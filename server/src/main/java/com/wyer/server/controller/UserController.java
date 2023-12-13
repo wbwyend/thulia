@@ -48,4 +48,15 @@ public class UserController {
         return Result.success(userService.modify(password));
     }
 
+    /**
+     * 注销用户
+     * @param uid
+     * @return Result
+     */
+    @UserAccess
+    @PostMapping(value = "/delete")
+    public Result closeUser(@RequestBody Integer uid) {
+        return Result.success(userService.closeUser(uid));
+    }
+
 }

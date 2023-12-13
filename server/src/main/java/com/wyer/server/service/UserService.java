@@ -18,4 +18,6 @@ public interface UserService {
     User modify(User user);
 
     User modify(Password password);
+
+    Object closeUser(Integer uid);
 }

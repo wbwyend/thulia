@@ -35,6 +35,9 @@ public class UserServiceImpl implements UserService {
         if (!user.getPassword().equals(dbUser.getPassword())) {
             throw new ServiceException("账号或密码错误");
         }
+        if (dbUser.getUsername().equals("deleted_user")) {
+            throw new ServiceException("账号或密码错误");
+        }
         // 生成token
         dbUser.setToken(TokenUtils.createToken(dbUser.getUid().toString(), dbUser.getPassword()));
         //去除密码等敏感信息
@@ -83,5 +86,15 @@ public class UserServiceImpl implements UserService {
         dbUser.setToken(TokenUtils.createToken(dbUser.getUid().toString(), password.getNewpassword()));
         dbUser.setPassword("");
         return dbUser;
+    }
+
+    @Override
+    public Object closeUser(Integer uid) {
+        try {
+            userMapper.updateUserNameToDeleted(uid);
+        } catch (Exception e) {
+            throw new ServiceException("系统错误");
+        }
+        return null;
     }
 }

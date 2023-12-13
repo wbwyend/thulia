@@ -30,4 +30,6 @@ public interface UserMapper {
 
     @Update("update user set password = #{password} where uid = #{uid}")
     void updatePassword(@Param("uid") Integer uid, @Param("password") String password);
+    @Update("update user set username = 'deleted_user' where uid = #{uid}")
+    void updateUserNameToDeleted(@Param("uid") Integer uid);
 }
