@@ -50,7 +50,7 @@ const routes = [
   },
   {
     path: '/space/user',
-    name: 'space_shop',
+    name: 'space_user',
     component: () => import('../views/space_user.vue'),
     redirect: '/space/user/home', //重定向至主页
     children: [
@@ -59,7 +59,8 @@ const routes = [
       { path: 'report/browse', name: 'browse', component: () => import('../views/space_user/browse.vue')},
       { path: 'report/purchase', name: 'purchase', component: () => import('../views/space_user/purchase.vue')},
       { path: 'password', name: 'password', component: () => import('../views/space_user/password.vue')},
-      { path: 'order', name: 'order', component: () => import('../views/space_user/order.vue')}
+      { path: 'order', name: 'order', component: () => import('../views/space_user/order.vue')},
+      { path: 'setting', name: 'setting', component: () => import('../views/space_user/setting.vue')}
     ]
   },
   {
