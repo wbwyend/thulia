@@ -1,6 +1,6 @@
 package com.wyer.server.service;
 
-import com.wyer.server.entity.Order;
+import com.wyer.server.model.entity.Order;
 
 import java.util.List;
 

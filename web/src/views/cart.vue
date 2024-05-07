@@ -31,7 +31,8 @@
                     <el-col :span="1" style="min-width: 85px;">
                         <div style="width: 100%; height: 35px;">
                             <el-col :span="7">
-                                <i class="el-icon-tickets" style="margin-left: 8px; margin-top: 10px; font-size: 16px;"></i>
+                                <i class="el-icon-tickets"
+                                    style="margin-left: 8px; margin-top: 10px; font-size: 16px;"></i>
                             </el-col>
                             <el-col :span="16">
                                 <el-link :underline="false" href="/space/user/order"
@@ -107,7 +108,7 @@
                                     </el-col>
                                     <el-col :span="18">
                                         <div @click="toDetails(scope.row)" style="overflow: hidden; height: 50px;">{{
-                                            scope.row.name }}</div>
+                    scope.row.name }}</div>
                                     </el-col>
                                 </div>
                             </template>
@@ -136,7 +137,8 @@
                         <el-table-column label="小计" min-width="100">
                             <template slot-scope="scope">
                                 <span style="font-size: 14px;">¥</span>
-                                <span style="font-size: 14px;">{{ (scope.row.number * scope.row.price).toFixed(2) }}</span>
+                                <span style="font-size: 14px;">{{ (scope.row.number * scope.row.price).toFixed(2)
+                                    }}</span>
                             </template>
                         </el-table-column>
                         <el-table-column label="操作">
@@ -227,9 +229,15 @@ export default {
     },
     methods: {
         logout() {
-            localStorage.removeItem("uInfo");
-            localStorage.removeItem("token");
-            this.$router.push('/home');
+            this.$request.post('/logout', this.user.uid).then(res => {
+                if (res.code == '200') {
+                    localStorage.removeItem("uInfo");
+                    localStorage.removeItem("token");
+                    this.$router.push('/home');
+                } else {
+                    this.$message.error(res.msg);
+                }
+            });
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;

@@ -185,7 +185,7 @@ export default {
     },
     mounted() {
         var text = localStorage.getItem("search");
-        if (text == "") {
+        if (text != "") {
             this.input = text;
             localStorage.removeItem("search");
         }
@@ -197,9 +197,15 @@ export default {
             this.$router.push('/login');
         },
         logout() {
-            localStorage.removeItem("uInfo");
-            localStorage.removeItem("token");
-            this.$router.go(0);
+            this.$request.post('/logout', this.user.uid).then(res => {
+                if (res.code == '200') {
+                    localStorage.removeItem("uInfo");
+                    localStorage.removeItem("token");
+                    this.$router.go(0);
+                } else {
+                    this.$message.error(res.msg);
+                }
+            });
         },
         handleCurrentChange() {
             this.displayTable = [];

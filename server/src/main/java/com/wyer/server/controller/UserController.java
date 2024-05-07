@@ -1,12 +1,12 @@
 package com.wyer.server.controller;
 
-import com.wyer.server.common.Password;
 import com.wyer.server.common.Result;
-import com.wyer.server.common.ShopAccess;
 import com.wyer.server.common.UserAccess;
-import com.wyer.server.entity.Shop;
-import com.wyer.server.entity.User;
-import com.wyer.server.service.UserServiceImpl;
+import com.wyer.server.model.entity.User;
+import com.wyer.server.model.vo.Password;
+import com.wyer.server.service.impl.BigDataServiceImpl;
+import com.wyer.server.service.impl.UserServiceImpl;
+import com.wyer.server.utils.ContextMapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +25,9 @@ public class UserController {
 
     @Autowired
     UserServiceImpl userService;
+
+    @Autowired
+    private BigDataServiceImpl bigDataService;
 
     /**
      * 用户修改信息
@@ -58,5 +61,13 @@ public class UserController {
     public Result closeUser(@RequestBody Integer uid) {
         return Result.success(userService.closeUser(uid));
     }
+
+
+    @UserAccess
+    @PostMapping(value = "/portrait")
+    public Result getUserPortrait() {
+        return Result.success(bigDataService.getUserPortrait(ContextMapUtils.getContextId()));
+    }
+
 
 }

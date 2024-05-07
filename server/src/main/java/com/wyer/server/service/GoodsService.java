@@ -1,7 +1,7 @@
 package com.wyer.server.service;
 
-import com.wyer.server.entity.Goods;
-import com.wyer.server.entity.PurchaseHistory;
+import com.wyer.server.model.entity.Goods;
+import com.wyer.server.model.entity.PurchaseHistory;
 
 import java.util.List;
 
@@ -28,4 +28,6 @@ public interface GoodsService {
     List<Goods> recommend();
 
     List<Goods> search(String text);
+
+    List<Goods> getSalerGoodsBySidAndState(Integer id, String aTrue);
 }

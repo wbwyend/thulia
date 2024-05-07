@@ -6,7 +6,7 @@
                     <div style="text-align: center; width: 100%; height: 50px; font-size: 22px; margin-top: 10px;">Shop
                         Manage</div>
                 </el-container>
-                <el-container style="width: 100%; height: 650px;">
+                <el-container style="width: 100%; height: 700px;">
                     <el-menu default-active="$route.path" router style="width: 100%;">
                         <el-menu-item index="/space/shop/home">
                             <i class="el-icon-s-home"></i>
@@ -14,8 +14,8 @@
                         </el-menu-item>
                         <el-submenu index="/space/shop/my">
                             <template slot="title">
-                                <i class="el-icon-user-solid"></i>
-                                <span>我的信息</span>
+                                <i class="el-icon-s-shop"></i>
+                                <span>商户信息</span>
                             </template>
                             <el-menu-item index="/space/shop/information">
                                 <i class="el-icon-user"></i>
@@ -24,6 +24,20 @@
                             <el-menu-item index="/space/shop/password">
                                 <i class="el-icon-lock"></i>
                                 <span slot="title">修改密码</span>
+                            </el-menu-item>
+                        </el-submenu>
+                        <el-submenu index="/space/shop/saler">
+                            <template slot="title">
+                                <i class="el-icon-s-custom"></i>
+                                <span>销售管理</span>
+                            </template>
+                            <el-menu-item index="/space/shop/saler/account">
+                                <i class="el-icon-eleme"></i>
+                                <span>账号管理</span>
+                            </el-menu-item>
+                            <el-menu-item index="/space/shop/saler/performance">
+                                <i class="el-icon-tickets"></i>
+                                <span>业绩管理</span>
                             </el-menu-item>
                         </el-submenu>
                         <el-submenu index="/space/shop/sale">
@@ -52,6 +66,10 @@
                             <el-menu-item index="/space/shop/report/purchase">
                                 <i class="el-icon-shopping-cart-2"></i>
                                 <span>购买记录</span>
+                            </el-menu-item>
+                            <el-menu-item index="/space/shop/report/category">
+                                <i class="el-icon-pie-chart"></i>
+                                <span>分类业绩</span>
                             </el-menu-item>
                         </el-submenu>
                     </el-menu>

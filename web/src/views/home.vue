@@ -193,6 +193,7 @@ export default {
         return {
             input: '',
             user: JSON.parse(localStorage.getItem("uInfo") || '{}'),
+            userId: JSON.parse(localStorage.getItem("uInfo") || '{}').uid || '0',
             dataTable: [],
             displayTable: [],
             currentPage: 1,
@@ -200,7 +201,7 @@ export default {
         }
     },
     mounted() {
-        this.$request.get('/goods/recommend/home').then(res => {
+        this.$request.get('/goods/recommend/home/' + this.userId).then(res => {
             if (res.code === '200') {
                 this.dataTable = res.data;
                 var len = this.dataTable.length;
@@ -220,9 +221,15 @@ export default {
             this.$router.push('/login');
         },
         logout() {
-            localStorage.removeItem("uInfo");
-            localStorage.removeItem("token");
-            this.$router.go(0);
+            this.$request.post('/logout', this.user.uid).then(res => {
+                if (res.code == '200') {
+                    localStorage.removeItem("uInfo");
+                    localStorage.removeItem("token");
+                    this.$router.go(0);
+                } else {
+                    this.$message.error(res.msg);
+                }
+            });
         },
         handleCurrentChange() {
             this.displayTable = [];

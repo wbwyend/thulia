@@ -9,67 +9,40 @@
                     <div></div>
                 </el-col>
                 <el-col :span="23">
-                    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" stripe height="480" 
+                    <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" stripe height="480"
                         @selection-change="handleSelectionChange">
                         <el-table-column type="selection" width="50">
                         </el-table-column>
-                        <el-table-column prop="name" label="商品名" width="200">
+                        <el-table-column prop="name" label="商品名" width="180">
+                        </el-table-column>
+                        <el-table-column prop="cid" label="类型" width="100">
+                            <template slot-scope="scope">
+                                {{ options.at(scope.row.cid - 1).label }}
+                            </template>
                         </el-table-column>
                         <el-table-column prop="price" label="价格" width="75" sortable>
                         </el-table-column>
                         <el-table-column prop="surplus" label="存量" width="75" sortable>
                         </el-table-column>
-                        <el-table-column prop="sales" label="销量" width="75" sortable>
-                        </el-table-column>
                         <el-table-column prop="picture" label="商品图片">
+                            <template slot-scope="scope">
+                                <el-avatar shape="square" :size="60" :src="scope.row.picture"></el-avatar>
+                            </template>
                         </el-table-column>
-                        <el-table-column fixed="right" label="操作" width="90">
+                        <el-table-column fixed="right" label="操作" width="180">
                             <template slot-scope="scope">
                                 <el-button type="text" size="small"
                                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                                 <el-button type="text" size="small"
                                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                                <el-button type="text" size="small"
+                                    @click="handleSales(scope.$index, scope.row)">查看销量</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
                     <div style="margin-top: 20px">
                         <el-button @click="toggleSelection()">取消选择</el-button>
                         <el-button @click="batchDelete()">批量删除</el-button>
-                        <el-button @click="dialogAddFormVisible = true">添加商品</el-button>
-                        <el-dialog title="添加商品" :visible.sync="dialogAddFormVisible" style="">
-                            <el-form :model="form" :rules="rules" ref="addRef">
-                                <el-form-item label="商品名称" :label-width="formLabelWidth" prop="name">
-                                    <el-input v-model="form.name" autocomplete="off"></el-input>
-                                </el-form-item>
-                                <el-form-item label="商品价格" :label-width="formLabelWidth" prop="price">
-                                    <el-input v-model="form.price" autocomplete="off"></el-input>
-                                </el-form-item>
-                                <el-form-item label="商品库存" :label-width="formLabelWidth" prop="surplus">
-                                    <el-input v-model="form.surplus" autocomplete="off"></el-input>
-                                </el-form-item>
-                                <el-row style="width: 100%; height: 140px;">
-                                    <el-container>
-                                        <el-aside style="width: 120px; height: 200px;">
-                                            <label class="el-form-item__label" style="width: 120px;">商品图片</label>
-                                        </el-aside>
-                                        <el-main style="padding: 0; display: flex;">
-                                            <div style="flex: 3;">
-                                                <el-upload :action="$baseUrl + '/file/upload/picture/goods'"
-                                                    :show-file-list="false" :headers="{ token: shop.token }"
-                                                    :on-success="handlePictureSuccess" :before-upload="beforePictureUpload">
-                                                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                                                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                                </el-upload>
-                                            </div>
-                                        </el-main>
-                                    </el-container>
-                                </el-row>
-                            </el-form>
-                            <div slot="footer" class="dialog-footer">
-                                <el-button @click="cancelAdd">取 消</el-button>
-                                <el-button type="primary" @click="addGoods">确 定</el-button>
-                            </div>
-                        </el-dialog>
                         <el-dialog title="编辑商品信息" :visible.sync="dialogEditFormVisible" style="">
                             <el-form :model="form" :rules="rules" ref="editRef">
                                 <el-form-item label="商品名称" :label-width="formLabelWidth" prop="name">
@@ -80,6 +53,13 @@
                                 </el-form-item>
                                 <el-form-item label="商品库存" :label-width="formLabelWidth" prop="surplus">
                                     <el-input v-model="form.surplus" autocomplete="off"></el-input>
+                                </el-form-item>
+                                <el-form-item label="商品类型" :label-width="formLabelWidth" prop="cid">
+                                    <el-select v-model="form.cid" placeholder="请选择">
+                                        <el-option v-for="item in options" :key="item.value" :label="item.label"
+                                            :value="item.value">
+                                        </el-option>
+                                    </el-select>
                                 </el-form-item>
                                 <el-row style="width: 100%; height: 140px;">
                                     <el-container>
@@ -93,7 +73,8 @@
                                             <div style="flex: 5;">
                                                 <el-upload :action="$baseUrl + '/file/upload/picture/goods'"
                                                     :show-file-list="false" :headers="{ token: shop.token }"
-                                                    :on-success="handlePictureSuccess" :before-upload="beforePictureUpload">
+                                                    :on-success="handlePictureSuccess"
+                                                    :before-upload="beforePictureUpload">
                                                     <i class="el-icon-plus avatar-uploader-icon"></i>
                                                 </el-upload>
                                             </div>
@@ -106,6 +87,20 @@
                                 <el-button type="primary" @click="editGoods">确 定</el-button>
                             </div>
                         </el-dialog>
+                        <el-dialog title="商品销售趋势" :visible.sync="dialogSalesFormVisible">
+                            <div style="display: flex;">
+                                <div id="charts" style="flex: 2; width: 500px; height: 400px;"></div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 18px; margin-bottom: 5px; margin-top: 80px">商品名：{{
+                    salesBlock.name }}</div>
+                                    <div style="font-size: 18px; margin-bottom: 5px;">总销量：{{ salesBlock.sales }}</div>
+                                    <div style="font-size: 18px; margin-bottom: 5px;">数据范围：{{ salesBlock.dataRange }}
+                                    </div>
+                                    <div style="font-size: 18px; margin-bottom: 5px;">预测范围：{{ salesBlock.predictRange }}
+                                    </div>
+                                </div>
+                            </div>
+                        </el-dialog>
                     </div>
                 </el-col>
             </el-container>
@@ -113,8 +108,15 @@
     </div>
 </template>
 
+
+
 <script>
+
+import * as echarts from 'echarts';
+import ecStat from 'echarts-stat';
+
 export default {
+
     name: 'goods',
     data() {
         return {
@@ -124,6 +126,7 @@ export default {
             multipleSelection: [],
             dialogAddFormVisible: false,
             dialogEditFormVisible: false,
+            dialogSalesFormVisible: false,
             form: {
                 name: '',
                 price: '',
@@ -131,7 +134,9 @@ export default {
                 sales: '',
                 picture: '',
                 sid: '',
-                onsale: ''
+                onsale: '',
+                saler: '',
+                cid: ''
             },
             rules: {
                 name: [
@@ -142,9 +147,248 @@ export default {
                 ],
                 surplus: [
                     { required: true, message: '请输入商品库存', trigger: 'blur' },
+                ],
+                cid: [
+                    { required: true, message: '请选择商品类型', trigger: 'blur' },
                 ]
             },
-            formLabelWidth: '120px'
+            formLabelWidth: '120px',
+            salesBlock: {
+                name: '',
+                sales: 0,
+                dataRange: '',
+                predictRange: ''
+            },
+            options: [{
+                value: 1,
+                label: '家用电器'
+            },
+            {
+                value: 2,
+                label: '手机'
+            },
+            {
+                value: 3,
+                label: '运营商'
+            },
+            {
+                value: 4,
+                label: '数码'
+            },
+            {
+                value: 5,
+                label: '电脑'
+            },
+            {
+                value: 6,
+                label: '办公'
+            },
+            {
+                value: 7,
+                label: '文具用品'
+            },
+            {
+                value: 8,
+                label: '家居'
+            },
+            {
+                value: 9,
+                label: '家具'
+            },
+            {
+                value: 10,
+                label: '家装'
+            },
+            {
+                value: 11,
+                label: '厨具'
+            },
+            {
+                value: 12,
+                label: '男装'
+            },
+            {
+                value: 13,
+                label: '女装'
+            },
+            {
+                value: 14,
+                label: '童装'
+            },
+            {
+                value: 15,
+                label: '内衣'
+            },
+            {
+                value: 16,
+                label: '美妆'
+            },
+            {
+                value: 17,
+                label: '个护清洁'
+            },
+            {
+                value: 18,
+                label: '宠物'
+            },
+            {
+                value: 19,
+                label: '女鞋'
+            },
+            {
+                value: 20,
+                label: '箱包'
+            },
+            {
+                value: 21,
+                label: '钟表'
+            },
+            {
+                value: 22,
+                label: '珠宝'
+            },
+            {
+                value: 23,
+                label: '男鞋'
+            },
+            {
+                value: 24,
+                label: '运动'
+            },
+            {
+                value: 25,
+                label: '户外'
+            },
+            {
+                value: 26,
+                label: '房产'
+            },
+            {
+                value: 27,
+                label: '汽车'
+            },
+            {
+                value: 28,
+                label: '汽车用品'
+            },
+            {
+                value: 29,
+                label: '母婴'
+            },
+            {
+                value: 30,
+                label: '玩具乐器'
+            },
+            {
+                value: 31,
+                label: '食品'
+            },
+            {
+                value: 32,
+                label: '酒类'
+            },
+            {
+                value: 33,
+                label: '生鲜'
+            },
+            {
+                value: 34,
+                label: '特产'
+            },
+            {
+                value: 35,
+                label: '艺术'
+            },
+            {
+                value: 36,
+                label: '礼品鲜花'
+            },
+            {
+                value: 37,
+                label: '农牧园艺'
+            },
+            {
+                value: 38,
+                label: '京东买药'
+            },
+            {
+                value: 39,
+                label: '计生情趣'
+            },
+            {
+                value: 40,
+                label: '图书'
+            },
+            {
+                value: 41,
+                label: '文娱'
+            },
+            {
+                value: 42,
+                label: '教育'
+            },
+            {
+                value: 43,
+                label: '电子书'
+            },
+            {
+                value: 44,
+                label: '机票'
+            },
+            {
+                value: 45,
+                label: '酒店'
+            },
+            {
+                value: 46,
+                label: '旅游'
+            },
+            {
+                value: 47,
+                label: '生活'
+            },
+            {
+                value: 48,
+                label: '支付'
+            },
+            {
+                value: 49,
+                label: '白条'
+            },
+            {
+                value: 50,
+                label: '保险'
+            },
+            {
+                value: 51,
+                label: '企业金融'
+            },
+            {
+                value: 52,
+                label: '安装'
+            },
+            {
+                value: 53,
+                label: '维修'
+            },
+            {
+                value: 54,
+                label: '清洗'
+            },
+            {
+                value: 55,
+                label: '二手'
+            },
+            {
+                value: 56,
+                label: '五金机电'
+            },
+            {
+                value: 56,
+                label: '元器件'
+            }
+
+            ]
         }
     },
     mounted() {
@@ -157,6 +401,52 @@ export default {
         })
     },
     methods: {
+        datePlus(date) {
+            var year = parseInt(date.substring(0, 4));
+            var month = parseInt(date.substring(5, 7));
+            var day = parseInt(date.substring(8, 10));
+            day++;
+            if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10) {
+                if (day > 31) {
+                    day = 1;
+                    month++;
+                }
+            }
+            if (month == 4 || month == 6 || month == 9 || month == 11) {
+                if (day > 30) {
+                    day = 1;
+                    month++;
+                }
+            }
+            if (month == 12) {
+                if (day > 31) {
+                    day = 1;
+                    month = 1;
+                    year++;
+                }
+            }
+            if (month == 2) {
+                if (year % 4 == 0) {
+                    if (day > 29) {
+                        day = 1;
+                        month = 3;
+                    }
+                } else {
+                    if (day > 28) {
+                        day = 1;
+                        month = 3;
+                    }
+                }
+            }
+
+            date = year + '-';
+            if (month < 10) date = date + '0' + month + '-';
+            else date = date + month + '-';
+            if (day < 10) date = date + '0' + day;
+            else date = date + day;
+
+            return date;
+        },
         toggleSelection(rows) {
             if (rows) {
                 rows.forEach(row => {
@@ -168,6 +458,115 @@ export default {
         },
         handleSelectionChange(val) {
             this.multipleSelection = val;
+        },
+        handleSales(index, row) {
+            this.dialogSalesFormVisible = true;
+            var salesVolumn = [];
+            this.salesBlock.name = row.name;
+            this.salesBlock.sales = row.sales;
+
+            this.$request.get('/goods/get/sales/' + row.gid).then(res => {
+                if (res.code === '200') {
+                    salesVolumn = res.data;
+                    const data = [];
+                    const dates = [];
+                    var i = 0;
+                    for (; i < salesVolumn.length; i++) {
+                        var temp = [i, salesVolumn[i].sales];
+                        data.push(temp);
+                        dates.push(salesVolumn[i].date);
+                    }
+                    this.salesBlock.dataRange = dates[0] + "至" + dates[dates.length - 1];
+                    this.$nextTick(() => {
+                        echarts.registerTransform(ecStat.transform.regression);
+                        var myRegression = ecStat.regression('polynomial', data, 3);
+                        var lastDate = dates[dates.length - 1];
+                        var tempDate = lastDate;
+                        for (var j = i; j <= i + 7; j++) {
+                            var val = myRegression.parameter[0] + myRegression.parameter[1] * j +
+                                myRegression.parameter[2] * j * j + myRegression.parameter[3] * j * j * j;
+                            if (val < 0) val = 0;
+                            val = Math.floor(val);
+                            var temp = [j, val];
+                            data.push(temp);
+                            tempDate = this.datePlus(tempDate);
+                            dates.push(tempDate);
+                        }
+                        this.salesBlock.predictRange = this.datePlus(lastDate) + "至" + dates[dates.length - 1];
+                        const chart = {
+                            dataset: [
+                                {
+                                    source: data
+                                },
+                                {
+                                    transform: {
+                                        type: 'ecStat:regression',
+                                        config: { method: 'polynomial', order: 3 }
+                                    }
+                                }
+                            ],
+                            title: {
+                                text: '商品销售趋势',
+                                left: 'center',
+                                top: 16
+                            },
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    type: 'cross'
+                                }
+                            },
+                            xAxis: [{
+                                splitLine: {
+                                    lineStyle: {
+                                        type: 'dashed'
+                                    }
+                                },
+                                splitNumber: 5,
+                                show: false
+                            }, {
+                                type: 'category',
+                                data: dates,
+                                boundaryGap: false,
+                                position: 'bottom'
+                            }],
+                            yAxis: [{
+                                min: 0,
+                                splitLine: {
+                                    lineStyle: {
+                                        type: 'dashed'
+                                    }
+                                }
+                            }],
+                            series: [
+                                {
+                                    name: '销量',
+                                    type: 'scatter'
+                                },
+                                {
+                                    name: '拟合销量',
+                                    type: 'line',
+                                    smooth: true,
+                                    datasetIndex: 1,
+                                    symbolSize: 0.1,
+                                    symbol: 'circle',
+                                    label: { show: true, fontSize: 14 },
+                                    labelLayout: { dx: -150 },
+                                    encode: { label: 2, tooltip: 1 }
+                                }
+                            ]
+                        };
+
+
+
+                        var myChart = echarts.init(document.getElementById('charts'));
+                        // 绘制图表
+                        myChart.setOption(chart);
+                    });
+                } else {
+                    this.$message.error(res.msg);
+                }
+            });
         },
         batchDelete() {
             if (this.multipleSelection.length === 0) {
@@ -230,7 +629,7 @@ export default {
             this.imageUrl = '';
         },
         handlePictureSuccess(response, file, fileList) {
-            this.imageUrl = response.data
+            this.imageUrl = response.substring(45, response.length - 16);
         },
         beforePictureUpload(file) {
             const isJPG = file.type === 'image/jpeg';

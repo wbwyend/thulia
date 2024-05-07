@@ -2,8 +2,8 @@ package com.wyer.server.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.wyer.server.entity.User;
 import com.wyer.server.mapper.UserMapper;
+import com.wyer.server.model.entity.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

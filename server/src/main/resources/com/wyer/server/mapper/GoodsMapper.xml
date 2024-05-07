@@ -15,7 +15,7 @@
             #{id}
         </foreach>
     </update>
-    <select id="selectGoodsNameByGidList">
+    <select id="selectGoodsNameByGidList" resultType="com.wyer.server.model.entity.Goods">
         select * from goods where gid in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}

@@ -255,10 +255,16 @@ export default {
             this.$router.push('/login');
         },
         logout() {
-            localStorage.removeItem("uInfo");
-            localStorage.removeItem("token");
-            this.$router.go(0);
-        }
+            this.$request.post('/logout', this.user.uid).then(res => {
+                if (res.code == '200') {
+                    localStorage.removeItem("uInfo");
+                    localStorage.removeItem("token");
+                    this.$router.go(0);
+                } else {
+                    this.$message.error(res.msg);
+                }
+            });
+        },
     }
 }
 </script>

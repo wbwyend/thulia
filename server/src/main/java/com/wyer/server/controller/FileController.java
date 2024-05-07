@@ -4,6 +4,8 @@ import com.wyer.server.common.AuthAccess;
 import com.wyer.server.common.Result;
 import com.wyer.server.common.ShopAccess;
 import com.wyer.server.common.UserAccess;
+import com.wyer.server.utils.COSUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,6 +43,12 @@ public class FileController {
      * 服务器根路径
      */
     private static final String ROOT_PATH = System.getProperty("user.dir") + File.separator + "files";
+
+    @Autowired
+    private COSUtils cosUtils;
+
+    private static final String COS_ROOT_PATH = "https://wbwy-1318322348.cos.ap-guangzhou.myqcloud.com/";
+
 
     /**
      * 上传文件至服务器，返回url
@@ -104,8 +112,9 @@ public class FileController {
             saveFile = new File(ROOT_PATH + File.separator + "shop_avatar" + File.separator + originalFilename);
         }
         file.transferTo(saveFile);
-        String url = "http://" + ip + ":" + port + "/file/download/avatar/shop/" + originalFilename;
-        return Result.success(url); // 返回文件的下载地址
+        String path = cosUtils.uploadObject(saveFile, "shop_avatar/" + originalFilename);
+        String url = COS_ROOT_PATH + path;
+        return Result.success(url);
     }
 
     /**
@@ -137,8 +146,9 @@ public class FileController {
             saveFile = new File(ROOT_PATH + File.separator + "user_avatar" + File.separator + originalFilename);
         }
         file.transferTo(saveFile);
-        String url = "http://" + ip + ":" + port + "/file/download/avatar/user/" + originalFilename;
-        return Result.success(url); // 返回文件的下载地址
+        String path = cosUtils.uploadObject(saveFile, "user_avatar/" + originalFilename);
+        String url = COS_ROOT_PATH + path;
+        return Result.success(url);
     }
 
     /**
@@ -170,7 +180,8 @@ public class FileController {
             saveFile = new File(ROOT_PATH + File.separator + "goods_picture" + File.separator + originalFilename);
         }
         file.transferTo(saveFile);
-        String url = "http://" + ip + ":" + port + "/file/download/picture/goods/" + originalFilename;
+        String path = cosUtils.uploadObject(saveFile, "goods_picture/" + originalFilename);
+        String url = COS_ROOT_PATH + path;
         return Result.success(url);
     }
 

@@ -57,11 +57,14 @@
 
                     <el-row style="width: 100%; height: 25px;">
                         <div style="display: flex;">
-                            <div style="flex: 1;">
+                            <div style="flex: 2;">
                                 <span>还没有账号？请</span>
                                 <a href="/register/shop" style="text-decoration: none;">
                                     <span>注册</span>
                                 </a>
+                            </div>
+                            <div style="flex: 1; text-align: right;">
+                                <a href="/login/saler" style="text-decoration: none;">销售登录</a>
                             </div>
                             <div style="flex: 1; text-align: right;">
                                 <a href="/login" style="text-decoration: none;">用户登录</a>

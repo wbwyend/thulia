@@ -8,8 +8,8 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.wyer.server.common.AlipayConfig;
 import com.wyer.server.common.AuthAccess;
-import com.wyer.server.entity.Order;
-import com.wyer.server.service.OrderServiceImpl;
+import com.wyer.server.model.entity.Order;
+import com.wyer.server.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -127,6 +127,7 @@ public class AlipayController {
                     String oid = params.get("out_trade_no");
                     String gmtPayment = params.get("gmt_payment");
                     String alipayTradeNo = params.get("trade_no");
+                    // 更新订单信息
                     orderService.updateOrder(Integer.parseInt(oid), gmtPayment, alipayTradeNo);
                 }
             }

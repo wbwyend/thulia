@@ -1,8 +1,7 @@
 package com.wyer.server.mapper;
 
-import com.wyer.server.entity.Order;
+import com.wyer.server.model.entity.Order;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

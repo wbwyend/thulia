@@ -2,8 +2,8 @@ package com.wyer.server.controller;
 
 import com.wyer.server.common.Result;
 import com.wyer.server.common.UserAccess;
-import com.wyer.server.entity.Cart;
-import com.wyer.server.service.CartServiceImpl;
+import com.wyer.server.model.entity.Cart;
+import com.wyer.server.service.impl.CartServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

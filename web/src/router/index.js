@@ -34,6 +34,24 @@ const routes = [
     component: () => import('../views/register_shop.vue')
   },
   {
+    path: '/login/saler',
+    name: 'login_saler',
+    component: () => import('../views/login_saler.vue')
+  },
+  {
+    path: '/space/saler',
+    name: 'space_saler',
+    component: () => import('../views/space_saler.vue'),
+    redirect: '/space/saler/home', //重定向至主页
+    children: [
+      { path: 'home', name: 'home', component: () => import('../views/space_saler/home.vue') },
+      { path: 'goods', name: 'goods', component: () => import('../views/space_saler/goods.vue')},
+      { path: 'goods/outsale', name: 'outsale', component: () => import('../views/space_saler/outsale.vue')},
+      { path: 'report/browse', name: 'browse', component: () => import('../views/space_saler/browse.vue')},
+      { path: 'report/purchase', name: 'purchase', component: () => import('../views/space_saler/purchase.vue')}
+    ]
+  },
+  {
     path: '/space/shop',
     name: 'space_shop',
     component: () => import('../views/space_shop.vue'),
@@ -44,8 +62,11 @@ const routes = [
       { path: 'goods', name: 'goods', component: () => import('../views/space_shop/goods.vue')},
       { path: 'report/browse', name: 'browse', component: () => import('../views/space_shop/browse.vue')},
       { path: 'report/purchase', name: 'purchase', component: () => import('../views/space_shop/purchase.vue')},
+      { path: 'report/category', name: 'category', component: () => import('../views/space_shop/category.vue')},
       { path: 'password', name: 'password', component: () => import('../views/space_shop/password.vue')},
-      { path: 'goods/outsale', name: 'outsale', component: () => import('../views/space_shop/outsale.vue')}
+      { path: 'goods/outsale', name: 'outsale', component: () => import('../views/space_shop/outsale.vue')},
+      { path: 'saler/account', name: 'account', component: () => import('../views/space_shop/account.vue')},
+      { path: 'saler/performance', name: 'performance', component: () => import('../views/space_shop/performance.vue')}
     ]
   },
   {

@@ -1,7 +1,7 @@
 package com.wyer.server.mapper;
 
-import com.wyer.server.entity.Goods;
-import com.wyer.server.entity.PurchaseHistory;
+import com.wyer.server.model.entity.Goods;
+import com.wyer.server.model.entity.PurchaseHistory;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -14,8 +14,8 @@ import java.util.List;
 @Mapper
 public interface GoodsMapper {
 
-    @Insert("insert into goods (name, price, sales, surplus, picture, sid)" +
-            " values (#{name}, #{price}, #{sales}, #{surplus}, #{picture}, #{sid})")
+    @Insert("insert into goods (name, price, sales, surplus, picture, sid, saler, cid)" +
+            " values (#{name}, #{price}, #{sales}, #{surplus}, #{picture}, #{sid}, #{saler}, #{cid})")
     void add(Goods goods);
 
     @Select("select * from goods where sid = #{sid} and onsale = #{state}")
@@ -29,7 +29,7 @@ public interface GoodsMapper {
 
     void batchDeleteShopGoods(@Param("ids") List<Integer> ids);
 
-    @Update("update goods set name = #{name}, price = #{price}, surplus = #{surplus}, picture = #{picture} where gid = #{gid}")
+    @Update("update goods set name = #{name}, price = #{price}, surplus = #{surplus}, picture = #{picture}, cid = #{cid} where gid = #{gid}")
     void update(Goods goods);
 
     @Update("update goods set onsale = 'true' where gid = #{gid}")
@@ -52,4 +52,10 @@ public interface GoodsMapper {
     @Update("UPDATE goods, purchase_history SET goods.sales = goods.sales + purchase_history.number WHERE" +
             " purchase_history.gid = goods.gid AND purchase_history.oid = #{oid}")
     void updateSalesByOid(@Param("oid") Integer oid);
+
+    @Select("select * from goods where saler = #{id} and onsale = #{state}")
+    List<Goods> selectSalerGoodsBySalerIdAndState(Integer id, String state);
+
+    @Update("update goods set cid = #{cid} where gid = #{gid}")
+    void updateCategory(Integer gid, Integer cid);
 }

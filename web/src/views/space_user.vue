@@ -90,10 +90,16 @@ export default {
     },
     methods: {
         logout() {
-            localStorage.removeItem("uInfo");
-            localStorage.removeItem("token");
-            this.$router.push('/home');
-        }
+            this.$request.post('/logout', this.user.uid).then(res => {
+                if (res.code == '200') {
+                    localStorage.removeItem("uInfo");
+                    localStorage.removeItem("token");
+                    this.$router.push('/home');
+                } else {
+                    this.$message.error(res.msg);
+                }
+            });
+        },
     }
 }
 </script>

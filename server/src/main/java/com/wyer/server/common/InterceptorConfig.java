@@ -1,6 +1,6 @@
 package com.wyer.server.common;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
@@ -12,16 +12,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  **/
 @Configuration
 public class InterceptorConfig extends WebMvcConfigurationSupport {
+
+    @Autowired
+    public JwtInterceptor jwtInterceptor;
+
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtInterceptor())
+        registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/home");
         super.addInterceptors(registry);
     }
 
-    @Bean
-    public JwtInterceptor jwtInterceptor() {
-        return new JwtInterceptor();
-    }
+
 }

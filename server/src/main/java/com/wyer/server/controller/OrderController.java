@@ -2,8 +2,8 @@ package com.wyer.server.controller;
 
 import com.wyer.server.common.Result;
 import com.wyer.server.common.UserAccess;
-import com.wyer.server.entity.Order;
-import com.wyer.server.service.OrderServiceImpl;
+import com.wyer.server.model.entity.Order;
+import com.wyer.server.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

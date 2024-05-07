@@ -1,8 +1,7 @@
 package com.wyer.server.service;
 
-import com.wyer.server.common.Password;
-import com.wyer.server.entity.Shop;
-import com.wyer.server.entity.User;
+import com.wyer.server.model.entity.User;
+import com.wyer.server.model.vo.Password;
 
 /**
  * Function: 用户服务类

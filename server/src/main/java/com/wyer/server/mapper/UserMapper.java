@@ -1,6 +1,6 @@
 package com.wyer.server.mapper;
 
-import com.wyer.server.entity.User;
+import com.wyer.server.model.entity.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

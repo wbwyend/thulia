@@ -4,14 +4,16 @@ import com.wyer.server.common.AuthAccess;
 import com.wyer.server.common.Result;
 import com.wyer.server.common.ShopAccess;
 import com.wyer.server.common.UserAccess;
-import com.wyer.server.entity.BrowseHistory;
-import com.wyer.server.entity.Goods;
-import com.wyer.server.entity.PurchaseHistory;
-import com.wyer.server.service.BrowseHistoryServiceImpl;
-import com.wyer.server.service.GoodsServiceImpl;
+import com.wyer.server.model.entity.Goods;
+import com.wyer.server.model.entity.PurchaseHistory;
+import com.wyer.server.service.BigDataService;
+import com.wyer.server.service.impl.BigDataServiceImpl;
+import com.wyer.server.service.impl.BrowseHistoryServiceImpl;
+import com.wyer.server.service.impl.GoodsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
@@ -28,6 +30,9 @@ public class GoodsController {
 
     @Autowired
     BrowseHistoryServiceImpl browseHistoryService;
+
+    @Autowired
+    BigDataServiceImpl bigDataService;
 
     /**
      * 商家添加新商品
@@ -49,6 +54,17 @@ public class GoodsController {
     @PostMapping(value = "/get/shop")
     public Result getShopGoods(@RequestBody Integer sid) {
         return Result.success(goodsService.getShopGoodsBySidAndState(sid, "true"));
+    }
+
+    /**
+     * 获得商家的所有在售商品
+     * @param id
+     * @return List<Goods>
+     */
+    @AuthAccess
+    @PostMapping(value = "/get/saler")
+    public Result getSalerGoods(@RequestBody Integer id) {
+        return Result.success(goodsService.getSalerGoodsBySidAndState(id, "true"));
     }
 
     /**
@@ -84,6 +100,18 @@ public class GoodsController {
         return Result.success(goodsService.updateShopGoods(goods));
     }
 
+
+    /**
+     * 销售更新商品信息
+     * @param goods
+     * @return
+     */
+    @ShopAccess
+    @PostMapping(value = "/update/saler")
+    public Result updateSalerGoods(@RequestBody Goods goods) {
+        return Result.success(goodsService.updateSalerGoods(goods));
+    }
+
     /**
      * 商家获取已下架商品
      * @param sid
@@ -93,6 +121,17 @@ public class GoodsController {
     @PostMapping(value = "/get/outsale/shop")
     public Result getShopOutSaleGoods(@RequestBody Integer sid) {
         return Result.success(goodsService.getShopGoodsBySidAndState(sid, "false"));
+    }
+
+    /**
+     * 销售获取已下架商品
+     * @param id
+     * @return List<Goods>
+     */
+    @ShopAccess
+    @PostMapping(value = "/get/outsale/saler")
+    public Result getSalerOutSaleGoods(@RequestBody Integer id) {
+        return Result.success(goodsService.getSalerGoodsBySidAndState(id, "false"));
     }
 
     /**
@@ -119,23 +158,20 @@ public class GoodsController {
 
     /**
      * 商品详情页获取商品详细信息
-     * @param ids
+     * @param gid
      * @return Goods
      */
     @AuthAccess
     @PostMapping(value = "/get/details")
-    public Result detailsGet(@RequestBody List<Integer> ids) {
-        Goods goods = goodsService.selectByGid(ids.get(0));
+    public Result detailsGet(@RequestBody Integer gid) {
+        Goods goods = goodsService.selectByGid(gid);
         if (goods.getOnsale().equals("false")) {
             return Result.error("404", "该商品已下架");
         }
-        BrowseHistory browseHistory = new BrowseHistory();
-        browseHistory.setUid(ids.get(1));
-        browseHistory.setSid(goods.getSid());
-        browseHistory.setGid(ids.get(0));
-        browseHistoryService.add(browseHistory);
         return Result.success(goods);
     }
+
+
 
     /**
      * 检查商品存货是否满足用户购买
@@ -153,8 +189,14 @@ public class GoodsController {
      * @return List<Goods>
      */
     @AuthAccess
-    @GetMapping(value = "/recommend/home")
-    public Result recommendFromHome() {
-        return Result.success(goodsService.recommend());
+    @GetMapping(value = "/recommend/home/{uid}")
+    public Result recommendFromHome(@PathVariable("uid") int userId) {
+        return Result.success(bigDataService.getRecommendGoods(userId));
+    }
+
+    @ShopAccess
+    @GetMapping(value = "/get/sales/{gid}")
+    public Result getSalesVolumeByDate(@PathVariable("gid") int gid) {
+        return Result.success(bigDataService.getSalesVolumeByDate(gid));
     }
 }

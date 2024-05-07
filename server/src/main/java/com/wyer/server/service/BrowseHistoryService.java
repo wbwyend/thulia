@@ -1,8 +1,8 @@
 package com.wyer.server.service;
 
-import com.wyer.server.common.BrowseHistoryCountForShop;
-import com.wyer.server.common.BrowseHistoryDetailsForShop;
-import com.wyer.server.entity.BrowseHistory;
+import com.wyer.server.model.entity.BrowseHistory;
+import com.wyer.server.model.vo.BrowseHistoryCountForShop;
+import com.wyer.server.model.vo.BrowseHistoryDetailsForShop;
 
 import java.util.List;
 
@@ -16,6 +16,8 @@ public interface BrowseHistoryService {
     void add(BrowseHistory browseHistory);
 
     List<BrowseHistoryCountForShop> getShop(Integer sid);
+
+    List<BrowseHistoryCountForShop> getSaler(Integer sid, Integer salerId);
 
     List<BrowseHistoryDetailsForShop> getShopDetails(Integer gid);
 }

@@ -1,7 +1,7 @@
 package com.wyer.server.service;
 
-import com.wyer.server.common.CartTableRow;
-import com.wyer.server.entity.Cart;
+import com.wyer.server.model.entity.Cart;
+import com.wyer.server.model.vo.CartTableRow;
 
 import java.util.List;
 

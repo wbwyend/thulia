@@ -210,7 +210,7 @@ export default {
             return result;
         },
         handleAvatarSuccess(response, file, fileList) {
-            this.avataUrl = response.data
+            this.avataUrl = response.substring(45, response.length - 16);
         },
         beforeAvatarUpload(file) {
             const isJPG = file.type === 'image/jpeg';

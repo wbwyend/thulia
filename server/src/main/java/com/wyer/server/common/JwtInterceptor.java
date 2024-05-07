@@ -5,11 +5,14 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.wyer.server.entity.Shop;
-import com.wyer.server.entity.User;
 import com.wyer.server.exception.ServiceException;
 import com.wyer.server.mapper.ShopMapper;
 import com.wyer.server.mapper.UserMapper;
+import com.wyer.server.model.entity.Shop;
+import com.wyer.server.model.entity.User;
+import com.wyer.server.utils.ContextMapUtils;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -22,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  * Writer: wyer
  * Date: 2023/09/29 20:23
  **/
+@Component
 public class JwtInterceptor implements HandlerInterceptor {
 
     @Resource
@@ -76,6 +80,8 @@ public class JwtInterceptor implements HandlerInterceptor {
                     throw new ServiceException("401", "请登录");
                 }
 
+                ContextMapUtils.setContextId(user.getUid());
+
                 return true;
             }
         }
@@ -111,10 +117,17 @@ public class JwtInterceptor implements HandlerInterceptor {
                     throw new ServiceException("401", "请登录");
                 }
 
+                ContextMapUtils.setContextId(shop.getSid());
+
                 return true;
             }
         }
 
         throw new ServiceException("401", "请登录");
+    }
+
+    @Override
+    public void afterCompletion(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler, Exception ex) throws Exception {
+        ContextMapUtils.removeContextId();
     }
 }

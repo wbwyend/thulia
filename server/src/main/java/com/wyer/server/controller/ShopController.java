@@ -2,10 +2,10 @@ package com.wyer.server.controller;
 
 import com.wyer.server.common.AuthAccess;
 import com.wyer.server.common.Result;
-import com.wyer.server.common.Password;
 import com.wyer.server.common.ShopAccess;
-import com.wyer.server.entity.Shop;
-import com.wyer.server.service.ShopServiceImpl;
+import com.wyer.server.model.entity.Shop;
+import com.wyer.server.model.vo.Password;
+import com.wyer.server.service.impl.ShopServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

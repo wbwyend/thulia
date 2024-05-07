@@ -1,8 +1,8 @@
 package com.wyer.server.mapper;
 
-import com.wyer.server.common.BrowseHistoryCountForShop;
-import com.wyer.server.common.BrowseHistoryDetailsForUser;
-import com.wyer.server.entity.BrowseHistory;
+import com.wyer.server.model.entity.BrowseHistory;
+import com.wyer.server.model.vo.BrowseHistoryCountForShop;
+import com.wyer.server.model.vo.BrowseHistoryDetailsForUser;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 public interface BrowseHistoryMapper {
 
-    @Insert("insert into browse_history (uid, sid, gid, time) values (#{uid}, #{sid}, #{gid}, #{time})")
+    @Insert("insert into browse_history (uid, sid, gid, time, seconds) values (#{uid}, #{sid}, #{gid}, #{time}, #{seconds})")
     void add(BrowseHistory browseHistory);
 
     @Select("select * from browse_history where sid = #{sid}")
@@ -33,4 +33,5 @@ public interface BrowseHistoryMapper {
     List<BrowseHistoryDetailsForUser> selectBrowsHistoryDetailsForUserByUid(@Param("uid") Integer uid);
 
 
+    List<BrowseHistoryCountForShop> selectBrowseHistoryBySalerId(@Param("sid") Integer sid, @Param("saler") Integer salerId);
 }

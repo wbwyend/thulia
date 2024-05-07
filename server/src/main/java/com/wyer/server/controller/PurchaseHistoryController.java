@@ -3,8 +3,8 @@ package com.wyer.server.controller;
 import com.wyer.server.common.Result;
 import com.wyer.server.common.ShopAccess;
 import com.wyer.server.common.UserAccess;
-import com.wyer.server.entity.PurchaseHistory;
-import com.wyer.server.service.PurchaseHistoryServiceImpl;
+import com.wyer.server.model.entity.PurchaseHistory;
+import com.wyer.server.service.impl.PurchaseHistoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,6 +67,17 @@ public class PurchaseHistoryController {
     @PostMapping("/get/shop")
     public Result selectShopBySid(@RequestBody Integer sid) {
         return Result.success(purchaseHistoryService.selectPurchaseHistoryBySid(sid));
+    }
+
+    /**
+     * 过销售id查看购买记录
+     * @param id
+     * @return
+     */
+    @ShopAccess
+    @PostMapping("/get/saler")
+    public Result selectShopBySalerId(@RequestBody Integer id) {
+        return Result.success(purchaseHistoryService.selectPurchaseHistoryBySalerId(id));
     }
 
 }

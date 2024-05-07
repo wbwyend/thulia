@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyer.server.mapper.BigDataMapper">
+    <select id="getRecommendGoods" resultType="integer">
+        SELECT
+        t1.gid
+        FROM
+        ( SELECT gid, count( gid ) AS cnt FROM browse_history_data WHERE uid IN
+        <foreach collection="uidList" item="uid" open="(" separator="," close=")">
+            #{uid}
+        </foreach>
+        GROUP BY gid ) AS t1
+        LEFT JOIN ( SELECT gid, count( gid ) AS cnt FROM purchase_history_data WHERE uid IN
+        <foreach collection="uidList" item="uid" open="(" separator="," close=")">
+            #{uid}
+        </foreach>
+        GROUP BY gid ) AS t2 ON t1.gid = t2.gid
+        ORDER BY
+        COALESCE ( t1.cnt + #{ratio} * t2.cnt, t1.cnt ) DESC
+        LIMIT 40
+    </select>
+</mapper>

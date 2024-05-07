@@ -1,8 +1,8 @@
 package com.wyer.server.service;
 
-import com.wyer.server.common.PurchaseHistoryForShopView;
-import com.wyer.server.common.PurchaseHistoryForUserPay;
-import com.wyer.server.common.PurchaseHistoryForUserView;
+import com.wyer.server.model.vo.PurchaseHistoryForShopView;
+import com.wyer.server.model.vo.PurchaseHistoryForUserPay;
+import com.wyer.server.model.vo.PurchaseHistoryForUserView;
 
 import java.util.List;
 
@@ -17,4 +17,6 @@ public interface PurchaseHistoryService {
     List<PurchaseHistoryForUserView> selectPurchaseHistoryByUid(Integer uid);
 
     List<PurchaseHistoryForShopView> selectPurchaseHistoryBySid(Integer sid);
+
+    List<PurchaseHistoryForShopView> selectPurchaseHistoryBySalerId(Integer id);
 }
