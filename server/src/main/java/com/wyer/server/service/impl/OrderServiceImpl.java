@@ -72,19 +72,14 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public Object insertOrder(Order order) {
-        try {
-            LocalDateTime currentTime = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-            String formattedDateTime = currentTime.format(formatter);
-            order.setCreate_time(formattedDateTime);
-            order.setStatus("未支付");
-            orderMapper.insertOrder(order);
-            order.setOid(orderMapper.selectOrdersByUidAndCreateTime(order.getCreate_time(), order.getUid()));
-            return order.getOid();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServiceException("系统错误");
-        }
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        String formattedDateTime = currentTime.format(formatter);
+        order.setCreate_time(formattedDateTime);
+        order.setStatus("未支付");
+        orderMapper.insertOrder(order);
+        order.setOid(orderMapper.selectOrdersByUidAndCreateTime(order.getCreate_time(), order.getUid()));
+        return order.getOid();
     }
 
     /**

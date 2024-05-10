@@ -62,34 +62,30 @@ public class BrowseHistoryServiceImpl implements BrowseHistoryService {
      */
     @Override
     public List<BrowseHistoryCountForShop> getShop(Integer sid) {
-        try {
-            List<BrowseHistory> browseHistories = browseHistoryMapper.selectBrowseHistoryBySid(sid);
-            List<BrowseHistoryCountForShop> res = new ArrayList<>();
-            Map<Integer, Integer> hashmap = new HashMap<>();
-            for (BrowseHistory browseHistory : browseHistories) {
-                int key = browseHistory.getGid();
-                if (!hashmap.containsKey(key)) {
-                    hashmap.put(key, 1);
-                    res.add(new BrowseHistoryCountForShop(browseHistory));
-                } else {
-                    hashmap.replace(key, hashmap.get(key) + 1);
-                }
+        List<BrowseHistory> browseHistories = browseHistoryMapper.selectBrowseHistoryBySid(sid);
+        List<BrowseHistoryCountForShop> res = new ArrayList<>();
+        Map<Integer, Integer> hashmap = new HashMap<>();
+        for (BrowseHistory browseHistory : browseHistories) {
+            int key = browseHistory.getGid();
+            if (!hashmap.containsKey(key)) {
+                hashmap.put(key, 1);
+                res.add(new BrowseHistoryCountForShop(browseHistory));
+            } else {
+                hashmap.replace(key, hashmap.get(key) + 1);
             }
-            List<Goods> goodsList = goodsMapper.selectGoodsNameByGidList(new ArrayList<>(hashmap.keySet()));
-            for (BrowseHistoryCountForShop re : res) {
-                re.setCount(hashmap.get(re.getGid()));
-                for (Goods goods : goodsList) {
-                    if (re.getGid().equals(goods.getGid())) {
-                        re.setName(goods.getName());
-                    }
-                }
-            }
-            return res;
-        } catch (BadSqlGrammarException e) {
-            throw new ServiceException("404", "暂无数据");
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
         }
+        if (hashmap.isEmpty()) throw new ServiceException("404", "暂无数据");
+        List<Goods> goodsList = goodsMapper.selectGoodsNameByGidList(new ArrayList<>(hashmap.keySet()));
+        if (goodsList.isEmpty()) throw new ServiceException("404", "暂无数据");
+        for (BrowseHistoryCountForShop re : res) {
+            re.setCount(hashmap.get(re.getGid()));
+            for (Goods goods : goodsList) {
+                if (re.getGid().equals(goods.getGid())) {
+                    re.setName(goods.getName());
+                }
+            }
+        }
+        return res;
     }
 
     /**

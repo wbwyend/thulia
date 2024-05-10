@@ -56,32 +56,32 @@ public class FileController {
      * @return url
      * @throws IOException
      */
-    @AuthAccess
-    @PostMapping(value = "/upload")
-    public Result upload(MultipartFile file) throws IOException {
-        String originalFilename = file.getOriginalFilename(); // 文件的原始名称
-        int ptr = 0;
-        for (int i = originalFilename.length() - 1; i >= 0; i--) {
-            if (originalFilename.charAt(i) == '.') {
-                ptr = i;
-                break;
-            }
-        }
-        String mainName = originalFilename.substring(0, ptr);
-        String exName = originalFilename.substring(ptr + 1);
-        File parentFile = new File(ROOT_PATH);
-        if (!parentFile.exists()) { // 如果当前文件的父级目录不存在，就创建
-            parentFile.mkdir();
-        }
-        File saveFile = new File(ROOT_PATH + File.separator + originalFilename);
-        if (saveFile.exists()) { // 如果当前上传的文件已存在，重命名文件
-            originalFilename = mainName + "_" + System.currentTimeMillis() + "." + exName;
-            saveFile = new File(ROOT_PATH + File.separator + originalFilename);
-        }
-        file.transferTo(saveFile);
-        String url = "http://" + ip + ":" + port + "/file/download/" + originalFilename;
-        return Result.success(url); // 返回文件的下载地址
-    }
+//    @AuthAccess
+//    @PostMapping(value = "/upload")
+//    public Result upload(MultipartFile file) throws IOException {
+//        String originalFilename = file.getOriginalFilename(); // 文件的原始名称
+//        int ptr = 0;
+//        for (int i = originalFilename.length() - 1; i >= 0; i--) {
+//            if (originalFilename.charAt(i) == '.') {
+//                ptr = i;
+//                break;
+//            }
+//        }
+//        String mainName = originalFilename.substring(0, ptr);
+//        String exName = originalFilename.substring(ptr + 1);
+//        File parentFile = new File(ROOT_PATH);
+//        if (!parentFile.exists()) { // 如果当前文件的父级目录不存在，就创建
+//            parentFile.mkdir();
+//        }
+//        File saveFile = new File(ROOT_PATH + File.separator + originalFilename);
+//        if (saveFile.exists()) { // 如果当前上传的文件已存在，重命名文件
+//            originalFilename = mainName + "_" + System.currentTimeMillis() + "." + exName;
+//            saveFile = new File(ROOT_PATH + File.separator + originalFilename);
+//        }
+//        file.transferTo(saveFile);
+//        String url = "http://" + ip + ":" + port + "/file/download/" + originalFilename;
+//        return Result.success(url); // 返回文件的下载地址
+//    }
 
     /**
      * 上传商家头像至服务器，返回url
@@ -103,9 +103,6 @@ public class FileController {
         String mainName = originalFilename.substring(0, ptr);
         String exName = originalFilename.substring(ptr + 1);
         File parentFile = new File(ROOT_PATH + File.separator + "shop_avatar");
-        if (!parentFile.exists()) { // 如果当前文件的父级目录不存在，就创建
-            parentFile.mkdir();
-        }
         File saveFile = new File(ROOT_PATH + File.separator + "shop_avatar" + File.separator + originalFilename);
         if (saveFile.exists()) { // 如果当前上传的文件已存在，重命名文件
             originalFilename = mainName + "_" + System.currentTimeMillis() + "." + exName;
@@ -137,9 +134,6 @@ public class FileController {
         String mainName = originalFilename.substring(0, ptr);
         String exName = originalFilename.substring(ptr + 1);
         File parentFile = new File(ROOT_PATH + File.separator + "user_avatar");
-        if (!parentFile.exists()) { // 如果当前文件的父级目录不存在，就创建
-            parentFile.mkdir();
-        }
         File saveFile = new File(ROOT_PATH + File.separator + "user_avatar" + File.separator + originalFilename);
         if (saveFile.exists()) { // 如果当前上传的文件已存在，重命名文件
             originalFilename = mainName + "_" + System.currentTimeMillis() + "." + exName;
@@ -171,9 +165,6 @@ public class FileController {
         String mainName = originalFilename.substring(0, ptr);
         String exName = originalFilename.substring(ptr + 1);
         File parentFile = new File(ROOT_PATH + File.separator + "goods_picture");
-        if (!parentFile.exists()) {
-            parentFile.mkdir();
-        }
         File saveFile = new File(ROOT_PATH + File.separator + "goods_picture" + File.separator + originalFilename);
         if (saveFile.exists()) {
             originalFilename = mainName + "_" + System.currentTimeMillis() + "." + exName;
@@ -185,151 +176,151 @@ public class FileController {
         return Result.success(url);
     }
 
-    /**
-     * 根据文件名从服务器下载文件
-     * @param fileName
-     * @param response
-     * @throws IOException
-     */
-    @AuthAccess
-    @GetMapping(value = "/download/{fileName}")
-    public void download(@PathVariable String fileName, HttpServletResponse response) throws IOException {
-        String filePath = ROOT_PATH + File.separator + fileName;
-        if (!new File(filePath).exists()) {
-            return;
-        }
-        byte[] bytes;
-        File f = new File(filePath);
+//    /**
+//     * 根据文件名从服务器下载文件
+//     * @param fileName
+//     * @param response
+//     * @throws IOException
+//     */
+//    @AuthAccess
+//    @GetMapping(value = "/download/{fileName}")
+//    public void download(@PathVariable String fileName, HttpServletResponse response) throws IOException {
+//        String filePath = ROOT_PATH + File.separator + fileName;
+//        if (!new File(filePath).exists()) {
+//            return;
+//        }
+//        byte[] bytes;
+//        File f = new File(filePath);
+//
+//        try (ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length())) {
+//            BufferedInputStream in = null;
+//            in = new BufferedInputStream(Files.newInputStream(f.toPath()));
+//            int buf_size = 1024;
+//            byte[] buffer = new byte[buf_size];
+//            int len = 0;
+//            while (-1 != (len = in.read(buffer, 0, buf_size))) {
+//                bos.write(buffer, 0, len);
+//            }
+//            bytes = bos.toByteArray();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
+//
+//        ServletOutputStream outputStream = response.getOutputStream();
+//        outputStream.write(bytes); // 文件字节流数组
+//        outputStream.flush();
+//        outputStream.close();
+//    }
 
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length())) {
-            BufferedInputStream in = null;
-            in = new BufferedInputStream(Files.newInputStream(f.toPath()));
-            int buf_size = 1024;
-            byte[] buffer = new byte[buf_size];
-            int len = 0;
-            while (-1 != (len = in.read(buffer, 0, buf_size))) {
-                bos.write(buffer, 0, len);
-            }
-            bytes = bos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        }
+//    /**
+//     * 根据文件名从服务器下载商家头像
+//     * @param fileName
+//     * @param response
+//     * @throws IOException
+//     */
+//    @AuthAccess
+//    @GetMapping(value = "/download/avatar/shop/{fileName}")
+//    public void shopAvatarDownload(@PathVariable String fileName, HttpServletResponse response) throws IOException {
+//        String filePath = ROOT_PATH + File.separator + "shop_avatar" + File.separator + fileName;
+//        if (!new File(filePath).exists()) {
+//            return;
+//        }
+//        byte[] bytes;
+//        File f = new File(filePath);
+//
+//        try (ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length())) {
+//            BufferedInputStream in = null;
+//            in = new BufferedInputStream(Files.newInputStream(f.toPath()));
+//            int buf_size = 1024;
+//            byte[] buffer = new byte[buf_size];
+//            int len = 0;
+//            while (-1 != (len = in.read(buffer, 0, buf_size))) {
+//                bos.write(buffer, 0, len);
+//            }
+//            bytes = bos.toByteArray();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
+//
+//        ServletOutputStream outputStream = response.getOutputStream();
+//        outputStream.write(bytes); // 文件字节流数组
+//        outputStream.flush();
+//        outputStream.close();
+//    }
 
-        ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(bytes); // 文件字节流数组
-        outputStream.flush();
-        outputStream.close();
-    }
+//    /**
+//     * 根据文件名从服务器下载用户头像
+//     * @param fileName
+//     * @param response
+//     * @throws IOException
+//     */
+//    @AuthAccess
+//    @GetMapping(value = "/download/avatar/user/{fileName}")
+//    public void userAvatarDownload(@PathVariable String fileName, HttpServletResponse response) throws IOException {
+//        String filePath = ROOT_PATH + File.separator + "user_avatar" + File.separator + fileName;
+//        if (!new File(filePath).exists()) {
+//            return;
+//        }
+//        byte[] bytes;
+//        File f = new File(filePath);
+//
+//        try (ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length())) {
+//            BufferedInputStream in = null;
+//            in = new BufferedInputStream(Files.newInputStream(f.toPath()));
+//            int buf_size = 1024;
+//            byte[] buffer = new byte[buf_size];
+//            int len = 0;
+//            while (-1 != (len = in.read(buffer, 0, buf_size))) {
+//                bos.write(buffer, 0, len);
+//            }
+//            bytes = bos.toByteArray();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
+//
+//        ServletOutputStream outputStream = response.getOutputStream();
+//        outputStream.write(bytes); // 文件字节流数组
+//        outputStream.flush();
+//        outputStream.close();
+//    }
 
-    /**
-     * 根据文件名从服务器下载商家头像
-     * @param fileName
-     * @param response
-     * @throws IOException
-     */
-    @AuthAccess
-    @GetMapping(value = "/download/avatar/shop/{fileName}")
-    public void shopAvatarDownload(@PathVariable String fileName, HttpServletResponse response) throws IOException {
-        String filePath = ROOT_PATH + File.separator + "shop_avatar" + File.separator + fileName;
-        if (!new File(filePath).exists()) {
-            return;
-        }
-        byte[] bytes;
-        File f = new File(filePath);
-
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length())) {
-            BufferedInputStream in = null;
-            in = new BufferedInputStream(Files.newInputStream(f.toPath()));
-            int buf_size = 1024;
-            byte[] buffer = new byte[buf_size];
-            int len = 0;
-            while (-1 != (len = in.read(buffer, 0, buf_size))) {
-                bos.write(buffer, 0, len);
-            }
-            bytes = bos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        }
-
-        ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(bytes); // 文件字节流数组
-        outputStream.flush();
-        outputStream.close();
-    }
-
-    /**
-     * 根据文件名从服务器下载用户头像
-     * @param fileName
-     * @param response
-     * @throws IOException
-     */
-    @AuthAccess
-    @GetMapping(value = "/download/avatar/user/{fileName}")
-    public void userAvatarDownload(@PathVariable String fileName, HttpServletResponse response) throws IOException {
-        String filePath = ROOT_PATH + File.separator + "user_avatar" + File.separator + fileName;
-        if (!new File(filePath).exists()) {
-            return;
-        }
-        byte[] bytes;
-        File f = new File(filePath);
-
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length())) {
-            BufferedInputStream in = null;
-            in = new BufferedInputStream(Files.newInputStream(f.toPath()));
-            int buf_size = 1024;
-            byte[] buffer = new byte[buf_size];
-            int len = 0;
-            while (-1 != (len = in.read(buffer, 0, buf_size))) {
-                bos.write(buffer, 0, len);
-            }
-            bytes = bos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        }
-
-        ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(bytes); // 文件字节流数组
-        outputStream.flush();
-        outputStream.close();
-    }
-
-    /**
-     * 根据文件名从服务器下载商品图片
-     * @param fileName
-     * @param response
-     * @throws IOException
-     */
-    @AuthAccess
-    @GetMapping(value = "/download/picture/goods/{fileName}")
-    public void goodsPictureDownload(@PathVariable String fileName, HttpServletResponse response) throws IOException {
-        String filePath = ROOT_PATH + File.separator + "goods_picture" + File.separator + fileName;
-        if (!new File(filePath).exists()) {
-            return;
-        }
-        byte[] bytes;
-        File f = new File(filePath);
-
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length())) {
-            BufferedInputStream in = null;
-            in = new BufferedInputStream(Files.newInputStream(f.toPath()));
-            int buf_size = 1024;
-            byte[] buffer = new byte[buf_size];
-            int len = 0;
-            while (-1 != (len = in.read(buffer, 0, buf_size))) {
-                bos.write(buffer, 0, len);
-            }
-            bytes = bos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw e;
-        }
-
-        ServletOutputStream outputStream = response.getOutputStream();
-        outputStream.write(bytes); // 文件字节流数组
-        outputStream.flush();
-        outputStream.close();
-    }
+//    /**
+//     * 根据文件名从服务器下载商品图片
+//     * @param fileName
+//     * @param response
+//     * @throws IOException
+//     */
+//    @AuthAccess
+//    @GetMapping(value = "/download/picture/goods/{fileName}")
+//    public void goodsPictureDownload(@PathVariable String fileName, HttpServletResponse response) throws IOException {
+//        String filePath = ROOT_PATH + File.separator + "goods_picture" + File.separator + fileName;
+//        if (!new File(filePath).exists()) {
+//            return;
+//        }
+//        byte[] bytes;
+//        File f = new File(filePath);
+//
+//        try (ByteArrayOutputStream bos = new ByteArrayOutputStream((int) f.length())) {
+//            BufferedInputStream in = null;
+//            in = new BufferedInputStream(Files.newInputStream(f.toPath()));
+//            int buf_size = 1024;
+//            byte[] buffer = new byte[buf_size];
+//            int len = 0;
+//            while (-1 != (len = in.read(buffer, 0, buf_size))) {
+//                bos.write(buffer, 0, len);
+//            }
+//            bytes = bos.toByteArray();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
+//
+//        ServletOutputStream outputStream = response.getOutputStream();
+//        outputStream.write(bytes); // 文件字节流数组
+//        outputStream.flush();
+//        outputStream.close();
+//    }
 }

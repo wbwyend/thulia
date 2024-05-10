@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 /**
  * Function: 用户服务类
  * Writer: wyer
@@ -35,7 +37,7 @@ public class UserServiceImpl implements UserService {
         if (!user.getPassword().equals(dbUser.getPassword())) {
             throw new ServiceException("账号或密码错误");
         }
-        if (dbUser.getUsername().equals("deleted_user")) {
+        if (dbUser.getUsername().startsWith("deleted_user")) {
             throw new ServiceException("账号或密码错误");
         }
         // 生成token
@@ -51,19 +53,19 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void register(User user) {
-        userMapper.insertUser(user);
+        try {
+            userMapper.insertUser(user);
+        } catch (DuplicateKeyException e) {
+            throw new ServiceException("账号重名");
+        }
     }
 
     @Override
     public User modify(User user) {
         try {
             userMapper.updateUser(user);
-        } catch (Exception e) {
-            if (e instanceof DuplicateKeyException) {
-                throw new ServiceException("账号重名");
-            } else {
-                throw new ServiceException("系统错误");
-            }
+        } catch (DuplicateKeyException e) {
+            throw new ServiceException("账号重名");
         }
         User dbUser = userMapper.selectByID(user.getUid());
         dbUser.setToken(TokenUtils.createToken(dbUser.getUid().toString(), dbUser.getPassword()));
@@ -90,11 +92,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object closeUser(Integer uid) {
-        try {
-            userMapper.updateUserNameToDeleted(uid);
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
-        }
+        userMapper.updateUserNameToDeleted(uid, "deleted_user" + UUID.randomUUID());
         return null;
     }
 }

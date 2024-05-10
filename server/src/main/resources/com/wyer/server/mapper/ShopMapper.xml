@@ -6,7 +6,7 @@
     <select id="selectAll" resultType="com.wyer.server.model.entity.Shop">
         select * from user
     </select>
-    <select id="selectShopNameBySidList">
+    <select id="selectShopNameBySidList" resultType="com.wyer.server.model.entity.Shop">
         select * from shop where sid in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
             #{id}

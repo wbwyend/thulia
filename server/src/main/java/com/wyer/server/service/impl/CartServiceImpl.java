@@ -34,8 +34,6 @@ public class CartServiceImpl implements CartService {
             cartMapper.add(cart);
         } catch (DuplicateKeyException e) {
             throw new ServiceException("已经加入购物车");
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
         }
         return null;
     }
@@ -57,12 +55,8 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public List<CartTableRow> delete(Cart cart) {
-        try {
-            cartMapper.delete(cart.getUid(), cart.getGid());
-            return cartMapper.selectCartTableRows(cart.getUid());
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
-        }
+        cartMapper.delete(cart.getUid(), cart.getGid());
+        return cartMapper.selectCartTableRows(cart.getUid());
     }
 
     /**
@@ -72,16 +66,12 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public List<CartTableRow> batchDelete(List<Cart> carts) {
-        try {
-            List<Integer> gidList = new ArrayList<>();
-            for (Cart cart : carts) {
-                gidList.add(cart.getGid());
-            }
-            cartMapper.batchDelete(carts.get(0).getUid(), gidList);
-            return cartMapper.selectCartTableRows(carts.get(0).getUid());
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
+        List<Integer> gidList = new ArrayList<>();
+        for (Cart cart : carts) {
+            gidList.add(cart.getGid());
         }
+        cartMapper.batchDelete(carts.get(0).getUid(), gidList);
+        return cartMapper.selectCartTableRows(carts.get(0).getUid());
     }
 
     /**
@@ -91,12 +81,8 @@ public class CartServiceImpl implements CartService {
      */
     @Override
     public List<CartTableRow> updateNumber(Cart cart) {
-        try {
-            cartMapper.updateNumber(cart);
-            return cartMapper.selectCartTableRows(cart.getUid());
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
-        }
+        cartMapper.updateNumber(cart);
+        return cartMapper.selectCartTableRows(cart.getUid());
     }
     /**
      * 批量更新购物车商品购买数量

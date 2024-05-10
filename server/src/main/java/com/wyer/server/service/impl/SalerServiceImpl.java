@@ -44,9 +44,6 @@ public class SalerServiceImpl implements SalerService {
         if (!saler.getPassword().equals(dbSaler.getPassword())) {
             throw new ServiceException("账号或密码错误");
         }
-        if (dbSaler.getUsername().equals("deleted_user")) {
-            throw new ServiceException("账号或密码错误");
-        }
         // 生成token
         dbSaler.setToken(TokenUtils.createToken(String.valueOf(dbSaler.getId()), dbSaler.getPassword()));
         //去除密码等敏感信息
@@ -126,6 +123,8 @@ public class SalerServiceImpl implements SalerService {
      */
     @Transactional
     public List<Saler> add(Saler saler) {
+        Saler dbSaler = salerMapper.selectByUsername(saler.username);
+        if (dbSaler != null) throw new ServiceException("用户名重复");
         salerMapper.add(saler);
         bigDataMapper.saveShopOperation(new ShopOperation(ContextMapUtils.getContextId(),
                 System.currentTimeMillis(),

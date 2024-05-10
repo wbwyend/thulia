@@ -1,4 +1,4 @@
-package com.wyer.server.common;
+package com.wyer.server.config;
 
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;

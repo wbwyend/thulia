@@ -60,11 +60,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<Goods> getShopGoodsBySidAndState(Integer sid, String state) {
-        try {
-            return goodsMapper.selectShopGoodsBySidAndState(sid, state);
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
-        }
+        return goodsMapper.selectShopGoodsBySidAndState(sid, state);
     }
 
     /**
@@ -76,17 +72,13 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional
     public List<Goods> deleteShopGoods(Goods goods) {
         List<Goods> goodsList;
-        try {
-            goodsMapper.deleteShopGoods(goods.getGid());
-            goodsList = goodsMapper.selectShopGoodsBySid(goods.getSid());
-            bigDataMapper.saveSalerOperation(new SalerOperation(goods.getSaler(),
-                    System.currentTimeMillis(),
-                    IPv4Util.getRequestIp(),
-                    "del",
-                    "goods"));
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
-        }
+        goodsMapper.deleteShopGoods(goods.getGid());
+        goodsList = goodsMapper.selectShopGoodsBySid(goods.getSid());
+        bigDataMapper.saveSalerOperation(new SalerOperation(goods.getSaler(),
+                System.currentTimeMillis(),
+                IPv4Util.getRequestIp(),
+                "del",
+                "goods"));
         return goodsList;
     }
 
@@ -97,21 +89,17 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Transactional
     public List<Goods> batchDeleteShopGoods(List<Goods> goodsList) {
-        try {
-            List<Integer> list = new ArrayList<>();
-            for (Goods goods : goodsList) {
-                list.add(goods.getGid());
-            }
-            goodsMapper.batchDeleteShopGoods(list);
-            goodsList = goodsMapper.selectShopGoodsBySid(goodsList.get(0).getSid());
-            bigDataMapper.saveSalerOperation(new SalerOperation(goodsList.get(0).getSaler(),
-                    System.currentTimeMillis(),
-                    IPv4Util.getRequestIp(),
-                    "upd",
-                    "goods"));
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
+        List<Integer> list = new ArrayList<>();
+        for (Goods goods : goodsList) {
+            list.add(goods.getGid());
         }
+        goodsMapper.batchDeleteShopGoods(list);
+        goodsList = goodsMapper.selectShopGoodsBySid(goodsList.get(0).getSid());
+        bigDataMapper.saveSalerOperation(new SalerOperation(goodsList.get(0).getSaler(),
+                System.currentTimeMillis(),
+                IPv4Util.getRequestIp(),
+                "upd",
+                "goods"));
         return goodsList;
     }
 
@@ -124,21 +112,17 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional
     public List<Goods> updateShopGoods(Goods goods) {
         List<Goods> goodsList;
-        try {
-            goodsMapper.update(goods);
-            if (goods.getOnsale().equals("true")) {
-                goodsList = goodsMapper.selectShopGoodsBySid(goods.getSid());
-            } else {
-                goodsList = goodsMapper.selectShopGoodsBySidAndState(goods.getSid(), "false");
-            }
-            bigDataMapper.saveShopOperation(new ShopOperation(goods.getSid(),
-                    System.currentTimeMillis(),
-                    IPv4Util.getRequestIp(),
-                    "upd",
-                    "goods"));
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
+        goodsMapper.update(goods);
+        if (goods.getOnsale().equals("true")) {
+            goodsList = goodsMapper.selectShopGoodsBySid(goods.getSid());
+        } else {
+            goodsList = goodsMapper.selectShopGoodsBySidAndState(goods.getSid(), "false");
         }
+        bigDataMapper.saveShopOperation(new ShopOperation(goods.getSid(),
+                System.currentTimeMillis(),
+                IPv4Util.getRequestIp(),
+                "upd",
+                "goods"));
         return goodsList;
     }
 
@@ -150,21 +134,17 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional
     public List<Goods> updateSalerGoods(Goods goods) {
         List<Goods> goodsList;
-        try {
-            goodsMapper.update(goods);
-            if (goods.getOnsale().equals("true")) {
-                goodsList = goodsMapper.selectSalerGoodsBySalerIdAndState(goods.getSaler(), "true");
-            } else {
-                goodsList = goodsMapper.selectShopGoodsBySidAndState(goods.getSaler(), "false");
-            }
-            bigDataMapper.saveSalerOperation(new SalerOperation(goods.getSaler(),
-                    System.currentTimeMillis(),
-                    IPv4Util.getRequestIp(),
-                    "del",
-                    "goods"));
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
+        goodsMapper.update(goods);
+        if (goods.getOnsale().equals("true")) {
+            goodsList = goodsMapper.selectSalerGoodsBySalerIdAndState(goods.getSaler(), "true");
+        } else {
+            goodsList = goodsMapper.selectShopGoodsBySidAndState(goods.getSaler(), "false");
         }
+        bigDataMapper.saveSalerOperation(new SalerOperation(goods.getSaler(),
+                System.currentTimeMillis(),
+                IPv4Util.getRequestIp(),
+                "del",
+                "goods"));
         return goodsList;
     }
 
@@ -177,17 +157,13 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional
     public List<Goods> listShopGoods(Goods goods) {
         List<Goods> goodsList;
-        try {
-            goodsMapper.listShopGoods(goods.getGid());
-            goodsList = goodsMapper.selectShopGoodsBySidAndState(goods.getSid(), "false");
-            bigDataMapper.saveSalerOperation(new SalerOperation(goods.getSaler(),
-                    System.currentTimeMillis(),
-                    IPv4Util.getRequestIp(),
-                    "lst",
-                    "goods"));
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
-        }
+        goodsMapper.listShopGoods(goods.getGid());
+        goodsList = goodsMapper.selectShopGoodsBySidAndState(goods.getSid(), "false");
+        bigDataMapper.saveSalerOperation(new SalerOperation(goods.getSaler(),
+                System.currentTimeMillis(),
+                IPv4Util.getRequestIp(),
+                "lst",
+                "goods"));
         return goodsList;
     }
 
@@ -198,21 +174,18 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Transactional
     public List<Goods> batchListShopGoods(List<Goods> goodsList) {
-        try {
-            List<Integer> list = new ArrayList<>();
-            for (Goods goods : goodsList) {
-                list.add(goods.getGid());
-            }
-            goodsMapper.batchListShopGoods(list);
-            goodsList = goodsMapper.selectShopGoodsBySidAndState(goodsList.get(0).getSid(), "false");
-            bigDataMapper.saveSalerOperation(new SalerOperation(goodsList.get(0).getSaler(),
-                    System.currentTimeMillis(),
-                    IPv4Util.getRequestIp(),
-                    "lst",
-                    "goods"));
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
+        List<Integer> list = new ArrayList<>();
+        for (Goods goods : goodsList) {
+            list.add(goods.getGid());
         }
+        int salerId = goodsList.get(0).getSaler();
+        goodsMapper.batchListShopGoods(list);
+        goodsList = goodsMapper.selectShopGoodsBySidAndState(goodsList.get(0).getSid(), "false");
+        bigDataMapper.saveSalerOperation(new SalerOperation(salerId,
+                System.currentTimeMillis(),
+                IPv4Util.getRequestIp(),
+                "lst",
+                "goods"));
         return goodsList;
     }
 
@@ -223,11 +196,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public Goods selectByGid(Integer gid) {
-        try {
-            return goodsMapper.selectByGid(gid);
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
-        }
+        return goodsMapper.selectByGid(gid);
     }
 
     /**
@@ -305,10 +274,6 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<Goods> getSalerGoodsBySidAndState(Integer id, String state) {
-        try {
-            return goodsMapper.selectSalerGoodsBySalerIdAndState(id, state);
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
-        }
+        return goodsMapper.selectSalerGoodsBySalerIdAndState(id, state);
     }
 }

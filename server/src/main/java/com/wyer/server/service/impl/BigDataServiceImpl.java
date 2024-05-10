@@ -2,12 +2,14 @@ package com.wyer.server.service.impl;
 
 import com.wyer.server.mapper.BigDataMapper;
 import com.wyer.server.mapper.GoodsMapper;
-import com.wyer.server.model.entity.*;
+import com.wyer.server.model.entity.Goods;
+import com.wyer.server.model.entity.LoginData;
+import com.wyer.server.model.entity.SalerOperation;
+import com.wyer.server.model.entity.ShopOperation;
 import com.wyer.server.model.vo.SalesVolumeByDate;
 import com.wyer.server.model.vo.UserCFObject;
 import com.wyer.server.model.vo.UserPortrait;
 import com.wyer.server.service.BigDataService;
-import com.wyer.server.utils.ContextMapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,7 @@ public class BigDataServiceImpl implements BigDataService {
     private GoodsMapper goodsMapper;
 
     public void saveLoginData(LoginData loginData) {
-        bigDataMapper.save(loginData);
+        bigDataMapper.saveLoginData(loginData);
     }
 
 
@@ -94,10 +96,11 @@ public class BigDataServiceImpl implements BigDataService {
             double param3 = 0;
             double param4 = 0;
             for (int i = 1; i <= goodsCount; i++) {
+                Map<Integer, Integer> tempMap;
                 int temp1 = browseHistoryDataMap.get(userId).getOrDefault(i, 0);
-                int temp2 = browseHistoryDataMap.get(j).getOrDefault(i, 0);
+                int temp2 = browseHistoryDataMap.getOrDefault(j, null) != null ? browseHistoryDataMap.get(j).getOrDefault(i, 0) : 0;
                 int temp3 = purchaseHistoryDataMap.get(userId).getOrDefault(i, 0);
-                int temp4 = purchaseHistoryDataMap.get(j).getOrDefault(i, 0);
+                int temp4 = purchaseHistoryDataMap.getOrDefault(j, null) != null ? purchaseHistoryDataMap.get(j).getOrDefault(i, 0) : 0;
                 param5 += temp1 * temp2;
                 param6 += temp3 * temp4;
                 param3 += temp2 * temp2;

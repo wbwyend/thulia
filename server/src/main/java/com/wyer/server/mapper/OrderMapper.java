@@ -21,9 +21,6 @@ public interface OrderMapper {
     @Select("select oid from `order` where create_time = #{createTime} and uid = #{uid}")
     Integer selectOrdersByUidAndCreateTime(@Param("createTime") String createTime, @Param("uid") Integer uid);
 
-    @Update("update `order` set status = '已删除' where oid = #{oid}")
-    void updateOrderStatusToDeleteByOid(@Param("oid") Integer oid);
-
     @Update("update `order` set status = #{status} where oid = #{oid}")
     void updateOrderStatusByOid(@Param("oid") Integer oid, @Param("status") String status);
 

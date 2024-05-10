@@ -55,7 +55,11 @@ public class ShopServiceImpl implements ShopService {
      */
     @Override
     public void register(Shop shop) {
-        shopMapper.insertShop(shop);
+        try {
+            shopMapper.insertShop(shop);
+        } catch (DuplicateKeyException e) {
+            throw new ServiceException("账号重名");
+        }
     }
 
     /**
@@ -68,18 +72,14 @@ public class ShopServiceImpl implements ShopService {
     public Shop modify(Shop shop) {
         try {
             shopMapper.updateShop(shop);
-            bigDataMapper.saveShopOperation(new ShopOperation(ContextMapUtils.getContextId(),
-                    System.currentTimeMillis(),
-                    IPv4Util.getRequestIp(),
-                    "upd",
-                    "shop"));
-        } catch (Exception e) {
-            if (e instanceof DuplicateKeyException) {
-                throw new ServiceException("账号重名");
-            } else {
-                throw new ServiceException("系统错误");
-            }
+        } catch (DuplicateKeyException e) {
+            throw new ServiceException("账号重名");
         }
+        bigDataMapper.saveShopOperation(new ShopOperation(ContextMapUtils.getContextId(),
+                System.currentTimeMillis(),
+                IPv4Util.getRequestIp(),
+                "upd",
+                "shop"));
         Shop dbShop = shopMapper.selectByID(shop.getSid());
         dbShop.setToken(TokenUtils.createToken(dbShop.getSid().toString(), dbShop.getPassword()));
         dbShop.setPassword("");
@@ -116,13 +116,9 @@ public class ShopServiceImpl implements ShopService {
      */
     @Override
     public Shop getDetailsPageShopInformation(Integer sid) {
-        try {
-            Shop shop = shopMapper.selectByID(sid);
-            shop.setUsername("");
-            shop.setPassword("");
-            return shop;
-        } catch (Exception e) {
-            throw new ServiceException("系统错误");
-        }
+        Shop shop = shopMapper.selectByID(sid);
+        shop.setUsername("");
+        shop.setPassword("");
+        return shop;
     }
 }

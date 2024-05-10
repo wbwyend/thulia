@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @SpringBootTest
-class ServerApplicationTests {
+class BigDataTest {
 
 	@Autowired
 	private CategoryMapper categoryMapper;
@@ -450,7 +450,7 @@ class ServerApplicationTests {
 					region = "华南";
 					break;
 			}
-			bigDataMapper.insertAddress(a, pro, region);
+//			bigDataMapper.insertAddress(a, pro, region);
 		}
 
 	}

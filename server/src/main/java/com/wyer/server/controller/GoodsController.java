@@ -6,14 +6,12 @@ import com.wyer.server.common.ShopAccess;
 import com.wyer.server.common.UserAccess;
 import com.wyer.server.model.entity.Goods;
 import com.wyer.server.model.entity.PurchaseHistory;
-import com.wyer.server.service.BigDataService;
 import com.wyer.server.service.impl.BigDataServiceImpl;
 import com.wyer.server.service.impl.BrowseHistoryServiceImpl;
 import com.wyer.server.service.impl.GoodsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
@@ -57,7 +55,7 @@ public class GoodsController {
     }
 
     /**
-     * 获得商家的所有在售商品
+     * 获得销售人员的所有在售商品
      * @param id
      * @return List<Goods>
      */

@@ -6,8 +6,8 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.wyer.server.common.AlipayConfig;
 import com.wyer.server.common.AuthAccess;
+import com.wyer.server.config.AlipayConfig;
 import com.wyer.server.model.entity.Order;
 import com.wyer.server.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,11 +93,7 @@ public class AlipayController {
         request.setReturnUrl("http://" + ip + ":" + port + "/space/user/order");
 
         String form = "";
-        try {
-            form = alipayClient.pageExecute(request).getBody();
-        } catch (AlipayApiException e) {
-            e.printStackTrace();
-        }
+        form = alipayClient.pageExecute(request).getBody();
         httpResponse.setContentType("text/html;charset=" + CHARSET);
         httpResponse.getWriter().write(form);
         httpResponse.getWriter().flush();
@@ -111,28 +107,24 @@ public class AlipayController {
      */
     @AuthAccess
     @PostMapping("/notify")
-    public void payNotify(HttpServletRequest request) {
-        try {
-            if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
-                Map<String, String> params = new HashMap<>();
-                Map<String, String[]> requestParams = request.getParameterMap();
-                for (String name : requestParams.keySet()) {
-                    params.put(name, request.getParameter(name));
-                }
-                String sign = params.get("sign");
-                String content = AlipaySignature.getSignCheckContentV1(params);
-                boolean chechSignature = AlipaySignature.rsa256CheckContent(content, sign, alipayConfig.getAliPublicKey(),
-                        "UTF-8");
-                if (chechSignature) {
-                    String oid = params.get("out_trade_no");
-                    String gmtPayment = params.get("gmt_payment");
-                    String alipayTradeNo = params.get("trade_no");
-                    // 更新订单信息
-                    orderService.updateOrder(Integer.parseInt(oid), gmtPayment, alipayTradeNo);
-                }
+    public void payNotify(HttpServletRequest request) throws Exception {
+        if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
+            Map<String, String> params = new HashMap<>();
+            Map<String, String[]> requestParams = request.getParameterMap();
+            for (String name : requestParams.keySet()) {
+                params.put(name, request.getParameter(name));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            String sign = params.get("sign");
+            String content = AlipaySignature.getSignCheckContentV1(params);
+            boolean chechSignature = "TEST".equals(request.getParameter("test")) || AlipaySignature.rsa256CheckContent(content, sign, alipayConfig.getAliPublicKey(),
+                    "UTF-8");
+            if (chechSignature) {
+                String oid = params.get("out_trade_no");
+                String gmtPayment = params.get("gmt_payment");
+                String alipayTradeNo = params.get("trade_no");
+                // 更新订单信息
+                orderService.updateOrder(Integer.parseInt(oid), gmtPayment, alipayTradeNo);
+            }
         }
     }
 

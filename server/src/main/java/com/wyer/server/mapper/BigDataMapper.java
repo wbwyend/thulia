@@ -21,7 +21,7 @@ import java.util.List;
 public interface BigDataMapper {
 
     @Insert("insert into login (uid, time, ip, type) values (#{uid}, #{time}, #{ip}, #{type})")
-    void save(LoginData loginData);
+    void saveLoginData(LoginData loginData);
 
     @Insert("insert into shop_operation (sid, time, ip, type, object) values (#{sid}, #{time}, #{ip}, #{type}, #{object})")
     void saveShopOperation(ShopOperation shopOperation);
@@ -29,8 +29,8 @@ public interface BigDataMapper {
     @Insert("insert into saler_operation (saler_id, time, ip, type, object) values (#{salerId}, #{time}, #{ip}, #{type}, #{object})")
     void saveSalerOperation(SalerOperation salerOperation);
 
-    @Insert("insert into `address` (address, province, region) values (#{address}, #{province}, #{region})")
-    void insertAddress(@Param("address") String address, @Param("province") String province, @Param("region") String region);
+//    @Insert("insert into `address` (address, province, region) values (#{address}, #{province}, #{region})")
+//    void insertAddress(@Param("address") String address, @Param("province") String province, @Param("region") String region);
 
     @Select("select * from user_portrait where uid = #{userId}")
     UserPortrait getUserPortrait(int userId);

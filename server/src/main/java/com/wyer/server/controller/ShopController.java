@@ -54,7 +54,6 @@ public class ShopController {
     @AuthAccess
     @PostMapping(value = "/get/details")
     public Result getDetailsPageShopInformation(@RequestBody(required = false) Integer sid) {
-
         return Result.success(shopService.getDetailsPageShopInformation(sid));
     }
 }

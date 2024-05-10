@@ -1,4 +1,4 @@
-package com.wyer.server.common;
+package com.wyer.server.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

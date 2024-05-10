@@ -9,10 +9,7 @@ import com.wyer.server.service.impl.*;
 import com.wyer.server.utils.IPv4Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 
@@ -44,18 +41,34 @@ public class WebController {
      * @return null
      */
     @AuthAccess
-    @RequestMapping
+    @GetMapping
     public Result get() {
-        String rootPath = System.getProperty("user.dir") + File.separator + "files";
-        return Result.success(rootPath);
+        return Result.success("测试成功");
     }
 
+    @PostMapping("/post")
+    public Result post() {
+        return Result.success("测试成功");
+    }
 
-    @AuthAccess
-    @PostMapping(value = "/test/bd")
-    public Result test(@RequestBody Integer seconds) {
-        System.out.println(seconds);
-        return Result.success();
+    /**
+     * 测试接口
+     * @return null
+     */
+    @UserAccess
+    @GetMapping("/get/user/test")
+    public Result getUser() {
+        return Result.success("测试成功");
+    }
+
+    /**
+     * 测试接口
+     * @return null
+     */
+    @ShopAccess
+    @GetMapping("/get/shop/test")
+    public Result getShop() {
+        return Result.success("测试成功");
     }
 
     /**
@@ -79,7 +92,7 @@ public class WebController {
         return Result.success(saler);
     }
 
-    @ShopAccess
+    @AuthAccess
     @PostMapping(value = "/logout/saler")
     public Result logoutSaler(@RequestBody Integer salerId) {
         SalerOperation salerOperation = new SalerOperation();
@@ -112,7 +125,7 @@ public class WebController {
         return Result.success(user);
     }
 
-    @UserAccess
+    @AuthAccess
     @PostMapping(value = "/logout")
     public Result logout(@RequestBody Integer uid) {
         LoginData loginData = new LoginData();
@@ -135,15 +148,7 @@ public class WebController {
         if (user.getUsername() == null || user.getPassword() == null || user.getEmail() == null) {
             return Result.error("系统错误");
         }
-        try {
-            userService.register(user);
-        } catch (Exception e) {
-            if (e instanceof DuplicateKeyException) {
-                return Result.error("账号已存在");
-            } else {
-                return Result.error("系统错误");
-            }
-        }
+        userService.register(user);
         return Result.success();
     }
 
@@ -168,7 +173,7 @@ public class WebController {
         return Result.success(shop);
     }
 
-    @ShopAccess
+    @AuthAccess
     @PostMapping(value = "/logout/shop")
     public Result logoutShop(@RequestBody Integer sid) {
         ShopOperation shopOperation = new ShopOperation();
@@ -192,15 +197,7 @@ public class WebController {
                 || shop.getShopname() == null || shop.getPhone() == null) {
             return Result.error("系统错误");
         }
-        try {
-            shopService.register(shop);
-        } catch (Exception e) {
-            if (e instanceof DuplicateKeyException) {
-                return Result.error("账号已存在");
-            } else {
-                return Result.error("系统错误");
-            }
-        }
+        shopService.register(shop);
         return Result.success();
     }
 

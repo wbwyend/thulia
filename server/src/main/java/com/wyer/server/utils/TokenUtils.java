@@ -44,26 +44,26 @@ public class TokenUtils {
                 .sign(Algorithm.HMAC256(sign)); // 以 password 作为 token 的密钥
     }
 
-    /**
-     * 获取当前登录的用户信息
-     * @return user对象
-     *  /user?token=xxxx
-     */
-    public static User getCurrentUser() {
-        String token = null;
-        try {
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            token = request.getHeader("token");
-            if (token.equals("")) {
-                token = request.getParameter("token");
-            }
-            if (!token.equals("")) {
-                String userID = JWT.decode(token).getAudience().get(0);
-                return staticUserMapper.selectByID(Integer.valueOf(userID));
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return null;
-    }
+//    /**
+//     * 获取当前登录的用户信息
+//     * @return user对象
+//     *  /user?token=xxxx
+//     */
+//    public static User getCurrentUser() {
+//        String token = null;
+//        try {
+//            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//            token = request.getHeader("token");
+//            if (token.equals("")) {
+//                token = request.getParameter("token");
+//            }
+//            if (!token.equals("")) {
+//                String userID = JWT.decode(token).getAudience().get(0);
+//                return staticUserMapper.selectByID(Integer.valueOf(userID));
+//            }
+//        } catch (Exception e) {
+//            return null;
+//        }
+//        return null;
+//    }
 }
