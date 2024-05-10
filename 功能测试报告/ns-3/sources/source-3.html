@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CorsConfig</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.wyer.server.config</a>
+</div>
+
+<h1>Coverage Summary for Class: CorsConfig (com.wyer.server.config)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CorsConfig</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CorsConfig$$EnhancerBySpringCGLIB$$64efbd63</td>
+  </tr>
+  <tr>
+    <td class="name">CorsConfig$$EnhancerBySpringCGLIB$$64efbd63$$FastClassBySpringCGLIB$$7eeb8355</td>
+  </tr>
+  <tr>
+    <td class="name">CorsConfig$$EnhancerBySpringCGLIB$$6e945083</td>
+  </tr>
+  <tr>
+    <td class="name">CorsConfig$$EnhancerBySpringCGLIB$$6e945083$$FastClassBySpringCGLIB$$5111d097</td>
+  </tr>
+  <tr>
+    <td class="name">CorsConfig$$EnhancerBySpringCGLIB$$8061502a</td>
+  </tr>
+  <tr>
+    <td class="name">CorsConfig$$EnhancerBySpringCGLIB$$8061502a$$FastClassBySpringCGLIB$$27e114f4</td>
+  </tr>
+  <tr>
+    <td class="name">CorsConfig$$FastClassBySpringCGLIB$$6f417402</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.wyer.server.config;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import org.springframework.context.annotation.Bean;
+<i class="no-highlight">4</i>&nbsp;import org.springframework.context.annotation.Configuration;
+<i class="no-highlight">5</i>&nbsp;import org.springframework.web.cors.CorsConfiguration;
+<i class="no-highlight">6</i>&nbsp;import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+<i class="no-highlight">7</i>&nbsp;import org.springframework.web.filter.CorsFilter;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;/**
+<i class="no-highlight">10</i>&nbsp; * Function: 跨域配置
+<i class="no-highlight">11</i>&nbsp; * Writer: wyer
+<i class="no-highlight">12</i>&nbsp; * Date: 2023/09/29 14:56
+<i class="no-highlight">13</i>&nbsp; **/
+<i class="no-highlight">14</i>&nbsp;@Configuration
+<b class="fc"><i class="no-highlight">15</i>&nbsp;public class CorsConfig {</b>
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;    // 当前跨域请求最大有效时长。这里默认1天
+<i class="no-highlight">18</i>&nbsp;    private static final long MAX_AGE = 24 * 60 * 60;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    @Bean
+<i class="no-highlight">21</i>&nbsp;    public CorsFilter corsFilter() {
+<b class="fc"><i class="no-highlight">22</i>&nbsp;        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();</b>
+<b class="fc"><i class="no-highlight">23</i>&nbsp;        CorsConfiguration corsConfiguration = new CorsConfiguration();</b>
+<b class="fc"><i class="no-highlight">24</i>&nbsp;        corsConfiguration.addAllowedOrigin(&quot;*&quot;); // 1 设置访问源地址</b>
+<b class="fc"><i class="no-highlight">25</i>&nbsp;        corsConfiguration.addAllowedHeader(&quot;*&quot;); // 2 设置访问源请求头</b>
+<b class="fc"><i class="no-highlight">26</i>&nbsp;        corsConfiguration.addAllowedMethod(&quot;*&quot;); // 3 设置访问源请求方法</b>
+<b class="fc"><i class="no-highlight">27</i>&nbsp;        corsConfiguration.setMaxAge(MAX_AGE);</b>
+<b class="fc"><i class="no-highlight">28</i>&nbsp;        source.registerCorsConfiguration(&quot;/**&quot;, corsConfiguration); // 4 对接口配置跨域设置</b>
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        return new CorsFilter(source);</b>
+<i class="no-highlight">30</i>&nbsp;    }
+<i class="no-highlight">31</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-10 16:55</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > IPv4Util</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.wyer.server.utils</a>
+</div>
+
+<h1>Coverage Summary for Class: IPv4Util (com.wyer.server.utils)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">IPv4Util</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.wyer.server.utils;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import org.springframework.web.context.request.RequestAttributes;
+<i class="no-highlight">4</i>&nbsp;import org.springframework.web.context.request.RequestContextHolder;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import javax.servlet.http.HttpServletRequest;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;/**
+<i class="no-highlight">9</i>&nbsp; * Name: IPv4Util
+<i class="no-highlight">10</i>&nbsp; * Writer: vnjohn
+<i class="no-highlight">11</i>&nbsp; **/
+<b class="fc"><i class="no-highlight">12</i>&nbsp;public class IPv4Util {</b>
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;//    private static final String HEADER_FORWARDED_FOR = &quot;x-forwarded-for&quot;;
+<i class="no-highlight">15</i>&nbsp;//    private static final String HEADER_PROXY_CLIENT_IP = &quot;Proxy-Client-IP&quot;;
+<i class="no-highlight">16</i>&nbsp;//    private static final String HEADER_WL_PROXY_CLIENT_IP = &quot;WL-Proxy-Client-IP&quot;;
+<i class="no-highlight">17</i>&nbsp;//    private static final String HEADER_HTTP_CLIENT_IP = &quot;http_client_ip&quot;;
+<i class="no-highlight">18</i>&nbsp;//    private static final String HEADER_HTTP_X_FORWARDED_FOR = &quot;HTTP_X_FORWARDED_FOR&quot;;
+<i class="no-highlight">19</i>&nbsp;//
+<i class="no-highlight">20</i>&nbsp;//    private static final String UNKNOWN = &quot;unknown&quot;;
+<i class="no-highlight">21</i>&nbsp;//    private static final String CHAR_COLON = &quot;:&quot;;
+<i class="no-highlight">22</i>&nbsp;//    private static final String CHAR_COMMA = &quot;,&quot;;
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;//    public static String getClientIp(HttpServletRequest request) {
+<i class="no-highlight">25</i>&nbsp;//        String ip = request.getHeader(HEADER_FORWARDED_FOR);
+<i class="no-highlight">26</i>&nbsp;//        boolean ipIsEmpty = ip == null || ip.length() == 0;
+<i class="no-highlight">27</i>&nbsp;//        if (ipIsEmpty || UNKNOWN.equalsIgnoreCase(ip)) {
+<i class="no-highlight">28</i>&nbsp;//            ip = request.getHeader(HEADER_PROXY_CLIENT_IP);
+<i class="no-highlight">29</i>&nbsp;//        }
+<i class="no-highlight">30</i>&nbsp;//        if (ipIsEmpty || UNKNOWN.equalsIgnoreCase(ip)) {
+<i class="no-highlight">31</i>&nbsp;//            ip = request.getHeader(HEADER_WL_PROXY_CLIENT_IP);
+<i class="no-highlight">32</i>&nbsp;//        }
+<i class="no-highlight">33</i>&nbsp;//        if (ipIsEmpty || UNKNOWN.equalsIgnoreCase(ip)) {
+<i class="no-highlight">34</i>&nbsp;//            ip = request.getRemoteAddr();
+<i class="no-highlight">35</i>&nbsp;//        }
+<i class="no-highlight">36</i>&nbsp;//        if (ipIsEmpty || UNKNOWN.equalsIgnoreCase(ip)) {
+<i class="no-highlight">37</i>&nbsp;//            ip = request.getHeader(HEADER_HTTP_CLIENT_IP);
+<i class="no-highlight">38</i>&nbsp;//        }
+<i class="no-highlight">39</i>&nbsp;//        if (ipIsEmpty || UNKNOWN.equalsIgnoreCase(ip)) {
+<i class="no-highlight">40</i>&nbsp;//            ip = request.getHeader(HEADER_HTTP_X_FORWARDED_FOR);
+<i class="no-highlight">41</i>&nbsp;//        }
+<i class="no-highlight">42</i>&nbsp;//        // 如果是多级代理，那么取第一个ip为客户ip
+<i class="no-highlight">43</i>&nbsp;//        if (ip != null &amp;&amp; ip.contains(CHAR_COMMA)) {
+<i class="no-highlight">44</i>&nbsp;//            ip = ip.substring(ip.lastIndexOf(CHAR_COMMA) + 1, ip.length()).trim();
+<i class="no-highlight">45</i>&nbsp;//        }
+<i class="no-highlight">46</i>&nbsp;//        //判断IP是否存在带有端口号的情况、应该要去掉端口号
+<i class="no-highlight">47</i>&nbsp;//        if (ip != null &amp;&amp; ip.contains(CHAR_COLON)) {
+<i class="no-highlight">48</i>&nbsp;//            ip = ip.substring(0, ip.indexOf(CHAR_COLON));
+<i class="no-highlight">49</i>&nbsp;//        }
+<i class="no-highlight">50</i>&nbsp;//        return ip;
+<i class="no-highlight">51</i>&nbsp;//    }
+<i class="no-highlight">52</i>&nbsp;
+<i class="no-highlight">53</i>&nbsp;    /**
+<i class="no-highlight">54</i>&nbsp;     * 获取请求的ip
+<i class="no-highlight">55</i>&nbsp;     */
+<i class="no-highlight">56</i>&nbsp;    public static String getRequestIp() {
+<b class="fc"><i class="no-highlight">57</i>&nbsp;        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();</b>
+<i class="no-highlight">58</i>&nbsp;        // 从获取 RequestAttributes 中获取 HttpServletRequest 信息
+<b class="fc"><i class="no-highlight">59</i>&nbsp;        HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);</b>
+<b class="fc"><i class="no-highlight">60</i>&nbsp;        String ip = request.getHeader(&quot;x-forwarded-for&quot;);</b>
+<b class="fc"><i class="no-highlight">61</i>&nbsp;        if (ip == null || ip.length() == 0 || &quot;unknown&quot;.equalsIgnoreCase(ip)) {</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;            ip = request.getHeader(&quot;Proxy-Client-IP&quot;);</b>
+<i class="no-highlight">63</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">64</i>&nbsp;        if (ip == null || ip.length() == 0 || &quot;unknown&quot;.equalsIgnoreCase(ip)) {</b>
+<b class="fc"><i class="no-highlight">65</i>&nbsp;            ip = request.getHeader(&quot;WL-Proxy-Client-IP&quot;);</b>
+<i class="no-highlight">66</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">67</i>&nbsp;        if (ip == null || ip.length() == 0 || &quot;unknown&quot;.equalsIgnoreCase(ip)) {</b>
+<b class="fc"><i class="no-highlight">68</i>&nbsp;            ip = request.getHeader(&quot;HTTP_CLIENT_IP&quot;);</b>
+<i class="no-highlight">69</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">70</i>&nbsp;        if (ip == null || ip.length() == 0 || &quot;unknown&quot;.equalsIgnoreCase(ip)) {</b>
+<b class="fc"><i class="no-highlight">71</i>&nbsp;            ip = request.getHeader(&quot;HTTP_X_FORWARDED_FOR&quot;);</b>
+<i class="no-highlight">72</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">73</i>&nbsp;        if (ip == null || ip.length() == 0 || &quot;unknown&quot;.equalsIgnoreCase(ip)) {</b>
+<b class="fc"><i class="no-highlight">74</i>&nbsp;            ip = request.getRemoteAddr();</b>
+<i class="no-highlight">75</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">76</i>&nbsp;        return ip;</b>
+<i class="no-highlight">77</i>&nbsp;    }
+<i class="no-highlight">78</i>&nbsp;}
+<i class="no-highlight">79</i>&nbsp;
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-10 16:55</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,101 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > OrderMapper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.wyer.server.mapper</a>
+</div>
+
+<h1>Coverage Summary for Class: OrderMapper (com.wyer.server.mapper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">OrderMapper</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.wyer.server.mapper;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.wyer.server.model.entity.Order;
+<i class="no-highlight">4</i>&nbsp;import org.apache.ibatis.annotations.*;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import java.util.List;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;/**
+<i class="no-highlight">9</i>&nbsp; * Function: 订单表接口
+<i class="no-highlight">10</i>&nbsp; * Writer: wyer
+<i class="no-highlight">11</i>&nbsp; * Date: 2023/12/05 19:48
+<i class="no-highlight">12</i>&nbsp; **/
+<i class="no-highlight">13</i>&nbsp;@Mapper
+<i class="no-highlight">14</i>&nbsp;public interface OrderMapper {
+<i class="no-highlight">15</i>&nbsp;    @Select(&quot;select * from `order` where uid = #{uid} order by create_time desc&quot;)
+<i class="no-highlight">16</i>&nbsp;    List&lt;Order&gt; selectOrdersByUid(@Param(&quot;uid&quot;) Integer uid);
+<i class="no-highlight">17</i>&nbsp;    @Insert(&quot;insert into `order` (uid, ordername, create_time, status, total) values (#{uid}, #{ordername},&quot; +
+<i class="no-highlight">18</i>&nbsp;            &quot; #{create_time}, #{status}, #{total})&quot;)
+<i class="no-highlight">19</i>&nbsp;    void insertOrder(Order order);
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;    @Select(&quot;select oid from `order` where create_time = #{createTime} and uid = #{uid}&quot;)
+<i class="no-highlight">22</i>&nbsp;    Integer selectOrdersByUidAndCreateTime(@Param(&quot;createTime&quot;) String createTime, @Param(&quot;uid&quot;) Integer uid);
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    @Update(&quot;update `order` set status = #{status} where oid = #{oid}&quot;)
+<i class="no-highlight">25</i>&nbsp;    void updateOrderStatusByOid(@Param(&quot;oid&quot;) Integer oid, @Param(&quot;status&quot;) String status);
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;    @Update(&quot;update `order` set status = #{status}, end_time = #{end_time}, alipay_trade_no = #{alipay_trade_no} where oid = #{oid}&quot;)
+<i class="no-highlight">28</i>&nbsp;    void updateOrderCompleteByOid(@Param(&quot;oid&quot;) Integer oid,  @Param(&quot;end_time&quot;) String end_time,
+<i class="no-highlight">29</i>&nbsp;                                @Param(&quot;alipay_trade_no&quot;) String alipay_trade_no, @Param(&quot;status&quot;) String status);
+<i class="no-highlight">30</i>&nbsp;    @Select(&quot;select * from `order` where oid = #{oid}&quot;)
+<i class="no-highlight">31</i>&nbsp;    Order selectOrderByOid(@Param(&quot;oid&quot;) Integer oid);
+<i class="no-highlight">32</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-10 16:55</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SalerMapper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.wyer.server.mapper</a>
+</div>
+
+<h1>Coverage Summary for Class: SalerMapper (com.wyer.server.mapper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">SalerMapper</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.wyer.server.mapper;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.wyer.server.model.entity.Saler;
+<i class="no-highlight">4</i>&nbsp;import com.wyer.server.model.vo.SalerPerformance;
+<i class="no-highlight">5</i>&nbsp;import org.apache.ibatis.annotations.*;
+<i class="no-highlight">6</i>&nbsp;
+<i class="no-highlight">7</i>&nbsp;import java.util.List;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;/**
+<i class="no-highlight">10</i>&nbsp; * Name: SalerMapper
+<i class="no-highlight">11</i>&nbsp; * Writer: wyer
+<i class="no-highlight">12</i>&nbsp; **/
+<i class="no-highlight">13</i>&nbsp;@Mapper
+<i class="no-highlight">14</i>&nbsp;public interface SalerMapper {
+<i class="no-highlight">15</i>&nbsp;    @Select(&quot;select * from saler where username = #{username} and active = 1&quot;)
+<i class="no-highlight">16</i>&nbsp;    Saler selectByUsername(String username);
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;    @Select(&quot;select * from saler where sid = #{sid} and active = 1&quot;)
+<i class="no-highlight">19</i>&nbsp;    List&lt;Saler&gt; selectBySid(Integer sid);
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;    void batchDelete(List&lt;Integer&gt; list);
+<i class="no-highlight">22</i>&nbsp;
+<i class="no-highlight">23</i>&nbsp;    @Delete(&quot;update saler set active = 0 where id = #{id}&quot;)
+<i class="no-highlight">24</i>&nbsp;    void delete(Integer id);
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    @Update(&quot;update saler set name = #{name}, username = #{username}, password = #{password} where id = #{id}&quot;)
+<i class="no-highlight">27</i>&nbsp;    void update(Saler saler);
+<i class="no-highlight">28</i>&nbsp;
+<i class="no-highlight">29</i>&nbsp;    @Insert(&quot;insert into saler (name, username, password, sid) values (#{name}, #{username}, #{password}, #{sid})&quot;)
+<i class="no-highlight">30</i>&nbsp;    void add(Saler saler);
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;    @Select(&quot;select saler.id, saler.name, sum(total) as total from purchase_history, goods, saler &quot; +
+<i class="no-highlight">33</i>&nbsp;            &quot;where goods.gid = purchase_history.gid and goods.saler = saler.id and purchase_history.sid = #{sid} &quot; +
+<i class="no-highlight">34</i>&nbsp;            &quot;group by saler.id&quot;)
+<i class="no-highlight">35</i>&nbsp;    List&lt;SalerPerformance&gt; selectSalerPerformance(Integer sid);
+<i class="no-highlight">36</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-10 16:55</div>
+</div>
+</body>
+</html>

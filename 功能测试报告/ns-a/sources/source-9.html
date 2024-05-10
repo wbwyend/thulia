@@ -1,0 +1,105 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ShopMapper</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.wyer.server.mapper</a>
+</div>
+
+<h1>Coverage Summary for Class: ShopMapper (com.wyer.server.mapper)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ShopMapper</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package com.wyer.server.mapper;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.wyer.server.model.entity.Shop;
+<i class="no-highlight">4</i>&nbsp;import org.apache.ibatis.annotations.*;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import java.util.List;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;/**
+<i class="no-highlight">9</i>&nbsp; * Function: 商家表接口
+<i class="no-highlight">10</i>&nbsp; * Writer: wyer
+<i class="no-highlight">11</i>&nbsp; * Date: 2023/09/29 18:21
+<i class="no-highlight">12</i>&nbsp; **/
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;@Mapper
+<i class="no-highlight">15</i>&nbsp;public interface ShopMapper {
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;    @Select(&quot;select * from shop where username = #{username}&quot;)
+<i class="no-highlight">18</i>&nbsp;    Shop selectByUsername(@Param(&quot;username&quot;) String username);
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    @Insert(&quot;insert into shop (username, password, shopname, phone, email, address, avatar)&quot; +
+<i class="no-highlight">21</i>&nbsp;            &quot; values (#{username}, #{password}, #{shopname}, #{phone}, #{email}, #{address}, #{avatar})&quot;)
+<i class="no-highlight">22</i>&nbsp;    void insertShop(Shop shop);
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    @Select(&quot;select * from shop where sid = #{sid}&quot;)
+<i class="no-highlight">25</i>&nbsp;    Shop selectByID(@Param(&quot;sid&quot;) Integer sid);
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;    @Update(&quot;update shop set username = #{username}, shopname = #{shopname}, phone = #{phone}, email = #{email},&quot; +
+<i class="no-highlight">28</i>&nbsp;            &quot;address = #{address}, avatar = #{avatar} where sid = #{sid}&quot;)
+<i class="no-highlight">29</i>&nbsp;    void updateShop(Shop shop);
+<i class="no-highlight">30</i>&nbsp;
+<i class="no-highlight">31</i>&nbsp;    @Update(&quot;update shop set password = #{password} where sid = #{sid}&quot;)
+<i class="no-highlight">32</i>&nbsp;    void updatePassword(@Param(&quot;sid&quot;) Integer sid, @Param(&quot;password&quot;) String password);
+<i class="no-highlight">33</i>&nbsp;
+<i class="no-highlight">34</i>&nbsp;    List&lt;Shop&gt; selectShopNameBySidList(@Param(&quot;ids&quot;) List&lt;Integer&gt; ids);
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-05-10 16:55</div>
+</div>
+</body>
+</html>
