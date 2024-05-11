@@ -24,14 +24,15 @@ public interface BrowseHistoryMapper {
     @Select("select * from browse_history where sid = #{sid}")
     List<BrowseHistory> selectBrowseHistoryBySid(@Param("sid") Integer sid);
 
-    @Select("select * from browse_history where gid = #{gid}")
+    @Select("select * from browse_history where gid = #{gid} order by time desc limit 0, 200")
     List<BrowseHistory> selectBrowseHistoryByGid(@Param("gid") Integer gid);
+
+    List<BrowseHistoryCountForShop> selectBrowseHistoryCountForShopBySid(@Param("sid") Integer sid);
 
     @Select("SELECT browse_history.id, browse_history.uid, browse_history.gid, shop.shopname, goods.`name`," +
             " browse_history.time FROM browse_history, shop, goods WHERE browse_history.uid = #{uid} AND " +
-            "browse_history.sid = shop.sid AND browse_history.gid = goods.gid ORDER BY time DESC")
+            "browse_history.sid = shop.sid AND browse_history.gid = goods.gid ORDER BY time DESC LIMIT 0, 200")
     List<BrowseHistoryDetailsForUser> selectBrowsHistoryDetailsForUserByUid(@Param("uid") Integer uid);
-
 
     List<BrowseHistoryCountForShop> selectBrowseHistoryBySalerId(@Param("sid") Integer sid, @Param("saler") Integer salerId);
 }

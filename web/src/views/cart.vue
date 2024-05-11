@@ -175,7 +175,7 @@
                             </span>
                         </el-col>
                         <el-col :span="3">
-                            <div style="width: 100%; height: 50px%;">
+                            <div style="width: 100%; height: 50px;">
                                 <el-button type="info" plain style="width: 100%; height: 50px; border-width: 1px; border-style: solid;
                  border-color: rgba(0, 0, 0, 0.1); border-radius: 5px; font-size: 18px;"
                                     @click="toOrder">去结算</el-button>

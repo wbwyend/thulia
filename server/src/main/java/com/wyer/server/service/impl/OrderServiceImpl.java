@@ -78,8 +78,7 @@ public class OrderServiceImpl implements OrderService {
         order.setCreate_time(formattedDateTime);
         order.setStatus("未支付");
         orderMapper.insertOrder(order);
-        order.setOid(orderMapper.selectOrdersByUidAndCreateTime(order.getCreate_time(), order.getUid()));
-        return order.getOid();
+        return orderMapper.selectOrdersByUidAndCreateTime(order.getCreate_time(), order.getUid());
     }
 
     /**

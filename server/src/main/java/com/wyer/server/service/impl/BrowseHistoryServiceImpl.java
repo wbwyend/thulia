@@ -62,30 +62,7 @@ public class BrowseHistoryServiceImpl implements BrowseHistoryService {
      */
     @Override
     public List<BrowseHistoryCountForShop> getShop(Integer sid) {
-        List<BrowseHistory> browseHistories = browseHistoryMapper.selectBrowseHistoryBySid(sid);
-        List<BrowseHistoryCountForShop> res = new ArrayList<>();
-        Map<Integer, Integer> hashmap = new HashMap<>();
-        for (BrowseHistory browseHistory : browseHistories) {
-            int key = browseHistory.getGid();
-            if (!hashmap.containsKey(key)) {
-                hashmap.put(key, 1);
-                res.add(new BrowseHistoryCountForShop(browseHistory));
-            } else {
-                hashmap.replace(key, hashmap.get(key) + 1);
-            }
-        }
-        if (hashmap.isEmpty()) throw new ServiceException("404", "暂无数据");
-        List<Goods> goodsList = goodsMapper.selectGoodsNameByGidList(new ArrayList<>(hashmap.keySet()));
-        if (goodsList.isEmpty()) throw new ServiceException("404", "暂无数据");
-        for (BrowseHistoryCountForShop re : res) {
-            re.setCount(hashmap.get(re.getGid()));
-            for (Goods goods : goodsList) {
-                if (re.getGid().equals(goods.getGid())) {
-                    re.setName(goods.getName());
-                }
-            }
-        }
-        return res;
+        return browseHistoryMapper.selectBrowseHistoryCountForShopBySid(sid);
     }
 
     /**

@@ -104,20 +104,20 @@ public class JwtInterceptor implements HandlerInterceptor {
                 }
 
                 // 根据token中的id查询数据库
-                Shop shop = shopMapper.selectByID(Integer.valueOf(shopId));
-                if (shop == null) {
-                    throw new ServiceException("401", "请登录");
-                }
+//                Shop shop = shopMapper.selectByID(Integer.valueOf(shopId));
+//                if (shop == null) {
+//                    throw new ServiceException("401", "请登录");
+//                }
 
                 // 用户密码加签验证
-                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(shop.getPassword())).build();
-                try {
-                    jwtVerifier.verify(token); // 验证token
-                } catch (JWTVerificationException e) {
-                    throw new ServiceException("401", "请登录");
-                }
+//                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(shop.getPassword())).build();
+//                try {
+//                    jwtVerifier.verify(token); // 验证token
+//                } catch (JWTVerificationException e) {
+//                    throw new ServiceException("401", "请登录");
+//                }
 
-                ContextMapUtils.setContextId(shop.getSid());
+                ContextMapUtils.setContextId(Integer.parseInt(shopId));
 
                 return true;
             }

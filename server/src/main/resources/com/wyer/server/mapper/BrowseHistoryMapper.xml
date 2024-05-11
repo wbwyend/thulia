@@ -8,4 +8,10 @@
         from browse_history, goods where browse_history.gid = goods.gid and browse_history.sid = #{sid} and goods.saler = #{saler}
         group by browse_history.gid
     </select>
+    <select id="selectBrowseHistoryCountForShopBySid" resultType="com.wyer.server.model.vo.BrowseHistoryCountForShop">
+        select browse_history.gid as gid, goods.`name` as`name`, count(browse_history.gid) as count
+        from browse_history, goods
+        where browse_history.sid = #{sid} and browse_history.gid = goods.gid
+        group by browse_history.gid
+    </select>
 </mapper>

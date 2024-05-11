@@ -82,6 +82,7 @@ public class AlipayController {
                 alipayConfig.getAppPrivateKey(), FORMAT, CHARSET, alipayConfig.getAliPublicKey(), SIGN_TYPE);
         AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
         request.setNotifyUrl(alipayConfig.getNotifyUrl());
+        System.out.println(alipayConfig.getNotifyUrl());
         JSONObject bizContent = new JSONObject();
         bizContent.put("out_trade_no", order.getOid());
         bizContent.put("total_amount", order.getTotal());
@@ -96,7 +97,6 @@ public class AlipayController {
         httpResponse.getWriter().write(form);
         httpResponse.getWriter().flush();
         httpResponse.getWriter().close();
-
     }
 
     /**
@@ -107,6 +107,7 @@ public class AlipayController {
     @AuthAccess
     @PostMapping("/notify")
     public void payNotify(HttpServletRequest request) throws Exception {
+        System.out.println("TRADE_SUCCESS");
         if (request.getParameter("trade_status").equals("TRADE_SUCCESS")) {
             Map<String, String> params = new HashMap<>();
             Map<String, String[]> requestParams = request.getParameterMap();

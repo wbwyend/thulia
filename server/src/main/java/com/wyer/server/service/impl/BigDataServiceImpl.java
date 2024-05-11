@@ -11,6 +11,7 @@ import com.wyer.server.model.vo.UserCFObject;
 import com.wyer.server.model.vo.UserPortrait;
 import com.wyer.server.service.BigDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,6 +27,14 @@ public class BigDataServiceImpl implements BigDataService {
 
     @Autowired
     private GoodsMapper goodsMapper;
+
+    @Autowired
+    @Qualifier("PurchaseHistoryDataMap")
+    private Map<Integer, Map<Integer, Integer>> purchaseHistoryDataMap;
+
+    @Autowired
+    @Qualifier("BrowseHistoryDataMap")
+    private Map<Integer, Map<Integer, Integer>> browseHistoryDataMap;
 
     public void saveLoginData(LoginData loginData) {
         bigDataMapper.saveLoginData(loginData);
@@ -45,43 +54,18 @@ public class BigDataServiceImpl implements BigDataService {
 
     public List<Goods> getRecommendGoods(int uid) {
 
-        // 1.建立矩阵
-        List<UserCFObject> browseHistoryData = bigDataMapper.getBrowseHistoryData();
-        Map<Integer, Map<Integer, Integer>> browseHistoryDataMap = new HashMap<>();
-        for (UserCFObject u : browseHistoryData) {
-            if (!browseHistoryDataMap.containsKey(u.getUid())) {
-                Map<Integer, Integer> sonMap = new HashMap<>();
-                sonMap.put(u.getGid(), u.getScore());
-                browseHistoryDataMap.put(u.getUid(), sonMap);
-            } else {
-                Map<Integer, Integer> sonMap = browseHistoryDataMap.get(u.getUid());
-                sonMap.put(u.getGid(), u.getScore());
-            }
-        }
-
-        List<UserCFObject> purchaseHistoryData = bigDataMapper.getPurChaseHistoryData();
-        Map<Integer, Map<Integer, Integer>> purchaseHistoryDataMap = new HashMap<>();
-        for (UserCFObject u : purchaseHistoryData) {
-            if (!purchaseHistoryDataMap.containsKey(u.getUid())) {
-                Map<Integer, Integer> sonMap = new HashMap<>();
-                sonMap.put(u.getGid(), u.getScore());
-                purchaseHistoryDataMap.put(u.getUid(), sonMap);
-            } else {
-                Map<Integer, Integer> sonMap = purchaseHistoryDataMap.get(u.getUid());
-                sonMap.put(u.getGid(), u.getScore());
-            }
-        }
-
         final int userCount = bigDataMapper.getCountUser();
         final int goodsCount = bigDataMapper.getCountGoods();
-        final int userId = uid != 0 ? uid : new Random().nextInt(userCount);
+        int userId = uid != 0 ? uid : new Random().nextInt(userCount);
         final double browseRatio = 0.3;
+
+        // 1.建立矩阵
 
         // 2.余弦相似度计算
         double param1 = 0, param2 = 0.0;
         for (int i = 1; i <= goodsCount; i++) {
-            double temp1 = browseHistoryDataMap.get(userId).getOrDefault(i, 0);
-            double temp2 = purchaseHistoryDataMap.get(userId).getOrDefault(i, 0);
+            double temp1 = browseHistoryDataMap.get(userId) != null ? browseHistoryDataMap.get(userId).getOrDefault(i, 0) : 0.0;
+            double temp2 = purchaseHistoryDataMap.get(userId) != null ? purchaseHistoryDataMap.get(userId).getOrDefault(i, 0) : 0.0;
             param1 += temp1 * temp1;
             param2 += temp2 * temp2;
         }
@@ -95,11 +79,10 @@ public class BigDataServiceImpl implements BigDataService {
             double param3 = 0;
             double param4 = 0;
             for (int i = 1; i <= goodsCount; i++) {
-                Map<Integer, Integer> tempMap;
-                int temp1 = browseHistoryDataMap.get(userId).getOrDefault(i, 0);
-                int temp2 = browseHistoryDataMap.getOrDefault(j, null) != null ? browseHistoryDataMap.get(j).getOrDefault(i, 0) : 0;
-                int temp3 = purchaseHistoryDataMap.get(userId).getOrDefault(i, 0);
-                int temp4 = purchaseHistoryDataMap.getOrDefault(j, null) != null ? purchaseHistoryDataMap.get(j).getOrDefault(i, 0) : 0;
+                double temp1 = browseHistoryDataMap.get(userId) != null ? browseHistoryDataMap.get(userId).getOrDefault(i, 0) : 0.0;
+                double temp2 = browseHistoryDataMap.get(j) != null ? browseHistoryDataMap.get(j).getOrDefault(i, 0) : 0.0;
+                double temp3 = purchaseHistoryDataMap.get(userId) != null ? purchaseHistoryDataMap.get(userId).getOrDefault(i, 0) : 0.0;
+                double temp4 = purchaseHistoryDataMap.get(j) != null ? purchaseHistoryDataMap.get(j).getOrDefault(i, 0) : 0.0;
                 param5 += temp1 * temp2;
                 param6 += temp3 * temp4;
                 param3 += temp2 * temp2;
@@ -108,7 +91,9 @@ public class BigDataServiceImpl implements BigDataService {
             param3 = Math.sqrt(param3);
             param4 = Math.sqrt(param4);
 
-            double similarity = param5 / param1 / param3 * browseRatio + param6 / param2 / param4 * (1 - browseRatio);
+            double similarity = 0;
+            if (param1 != 0 && param3 != 0) similarity += param5 / param1 / param3 * browseRatio;
+            if (param2 != 0 && param4 != 0) similarity += param6 / param2 / param4 * (1 - browseRatio);
 
             // 3.获取相似度最大的用户id
             Map.Entry<Integer, Double> entry = new AbstractMap.SimpleEntry<>(j, similarity);
