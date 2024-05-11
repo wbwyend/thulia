@@ -25,6 +25,7 @@ public class BrowseHistoryController {
 
     /**
      * 添加浏览记录
+     *
      * @param browseHistory
      * @return
      */
@@ -37,6 +38,7 @@ public class BrowseHistoryController {
 
     /**
      * 商家获取浏览记录统计
+     *
      * @param sid
      * @return BrowseHistoryCount
      */
@@ -54,6 +56,7 @@ public class BrowseHistoryController {
 
     /**
      * 商家获取浏览记录详情
+     *
      * @param gid
      * @return BrowseHistoryDetails
      */
@@ -65,6 +68,7 @@ public class BrowseHistoryController {
 
     /**
      * 用户获取浏览记录
+     *
      * @param uid
      * @return BrowseHistoryDetails
      */
@@ -73,7 +77,6 @@ public class BrowseHistoryController {
     public Result getUserBrowseHistoryByUid(@RequestBody Integer uid) {
         return Result.success(browseHistoryService.selectBrowsHistoryDetailsForUserByUid(uid));
     }
-
 
 
 }

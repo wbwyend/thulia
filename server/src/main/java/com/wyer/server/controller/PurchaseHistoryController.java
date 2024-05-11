@@ -27,6 +27,7 @@ public class PurchaseHistoryController {
 
     /**
      * 批量添加购买记录
+     *
      * @param list
      * @return Result
      */
@@ -38,6 +39,7 @@ public class PurchaseHistoryController {
 
     /**
      * 通过订单id查看购买记录
+     *
      * @param oid
      * @return List<PurchaseHistoryForUserPay>
      */
@@ -49,8 +51,9 @@ public class PurchaseHistoryController {
 
     /**
      * 通过用户id查看购买记录
+     *
      * @param uid
-     * @return  List<PurchaseHistoryForUserView>
+     * @return List<PurchaseHistoryForUserView>
      */
     @UserAccess
     @PostMapping("/get/user")
@@ -60,8 +63,9 @@ public class PurchaseHistoryController {
 
     /**
      * 通过商家id查看购买记录
+     *
      * @param sid
-     * @return  List<PurchaseHistoryForShopView>
+     * @return List<PurchaseHistoryForShopView>
      */
     @ShopAccess
     @PostMapping("/get/shop")
@@ -71,6 +75,7 @@ public class PurchaseHistoryController {
 
     /**
      * 过销售id查看购买记录
+     *
      * @param id
      * @return
      */

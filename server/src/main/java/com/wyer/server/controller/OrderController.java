@@ -24,6 +24,7 @@ public class OrderController {
 
     /**
      * 通过用户id获取订单
+     *
      * @param uid
      * @return List<Order>
      */
@@ -35,6 +36,7 @@ public class OrderController {
 
     /**
      * 添加订单
+     *
      * @param order
      * @return Integer oid
      */
@@ -46,6 +48,7 @@ public class OrderController {
 
     /**
      * 删除订单
+     *
      * @param oid
      * @param uid
      * @return List<Order>

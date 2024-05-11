@@ -31,7 +31,6 @@ public class BigDataServiceImpl implements BigDataService {
         bigDataMapper.saveLoginData(loginData);
     }
 
-
     public void saveShopOperation(ShopOperation shopOperation) {
         bigDataMapper.saveShopOperation(shopOperation);
     }

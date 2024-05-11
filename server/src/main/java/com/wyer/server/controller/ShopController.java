@@ -26,6 +26,7 @@ public class ShopController {
 
     /**
      * 商家修改商家信息
+     *
      * @param shop
      * @return Shop
      */
@@ -37,6 +38,7 @@ public class ShopController {
 
     /**
      * 商家修改密码
+     *
      * @param password
      * @return Shop
      */
@@ -48,6 +50,7 @@ public class ShopController {
 
     /**
      * 商家获取商家信息
+     *
      * @param sid
      * @return
      */

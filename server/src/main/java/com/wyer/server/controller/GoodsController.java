@@ -34,6 +34,7 @@ public class GoodsController {
 
     /**
      * 商家添加新商品
+     *
      * @param goods
      * @return List<Goods>
      */
@@ -45,6 +46,7 @@ public class GoodsController {
 
     /**
      * 获得商家的所有在售商品
+     *
      * @param sid
      * @return List<Goods>
      */
@@ -56,6 +58,7 @@ public class GoodsController {
 
     /**
      * 获得销售人员的所有在售商品
+     *
      * @param id
      * @return List<Goods>
      */
@@ -67,6 +70,7 @@ public class GoodsController {
 
     /**
      * 商家下架商品
+     *
      * @param goods
      * @return List<Goods>
      */
@@ -78,6 +82,7 @@ public class GoodsController {
 
     /**
      * 商家下架复数商品
+     *
      * @param goodsList
      * @return List<Goods>
      */
@@ -89,6 +94,7 @@ public class GoodsController {
 
     /**
      * 商家更新商品信息
+     *
      * @param goods
      * @return List<Goods>
      */
@@ -101,6 +107,7 @@ public class GoodsController {
 
     /**
      * 销售更新商品信息
+     *
      * @param goods
      * @return
      */
@@ -112,6 +119,7 @@ public class GoodsController {
 
     /**
      * 商家获取已下架商品
+     *
      * @param sid
      * @return List<Goods>
      */
@@ -123,6 +131,7 @@ public class GoodsController {
 
     /**
      * 销售获取已下架商品
+     *
      * @param id
      * @return List<Goods>
      */
@@ -134,6 +143,7 @@ public class GoodsController {
 
     /**
      * 商家上架已下架商品
+     *
      * @param goods
      * @return List<Goods>
      */
@@ -145,6 +155,7 @@ public class GoodsController {
 
     /**
      * 商家批量上架复数已下架商品
+     *
      * @param goodsList
      * @return List<Goods>
      */
@@ -156,6 +167,7 @@ public class GoodsController {
 
     /**
      * 商品详情页获取商品详细信息
+     *
      * @param gid
      * @return Goods
      */
@@ -169,10 +181,9 @@ public class GoodsController {
         return Result.success(goods);
     }
 
-
-
     /**
      * 检查商品存货是否满足用户购买
+     *
      * @param list
      * @return String
      */
@@ -184,6 +195,7 @@ public class GoodsController {
 
     /**
      * 首页推荐商品
+     *
      * @return List<Goods>
      */
     @AuthAccess

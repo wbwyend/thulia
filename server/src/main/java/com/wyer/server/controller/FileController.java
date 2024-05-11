@@ -1,22 +1,18 @@
 package com.wyer.server.controller;
 
-import com.wyer.server.common.AuthAccess;
 import com.wyer.server.common.Result;
 import com.wyer.server.common.ShopAccess;
 import com.wyer.server.common.UserAccess;
 import com.wyer.server.utils.COSUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * Function: 文件接口类
@@ -28,26 +24,22 @@ import java.nio.file.Files;
 public class FileController {
 
     /**
-     *服务器ip
+     * 服务器根路径
+     */
+    private static final String ROOT_PATH = System.getProperty("user.dir") + File.separator + "files";
+    private static final String COS_ROOT_PATH = "https://wbwy-1318322348.cos.ap-guangzhou.myqcloud.com/";
+    /**
+     * 服务器ip
      */
     @Value("${ip:localhost}")
     String ip;
-
     /**
      * 服务器端口
      */
     @Value("${server.port}")
     String port;
-
-    /**
-     * 服务器根路径
-     */
-    private static final String ROOT_PATH = System.getProperty("user.dir") + File.separator + "files";
-
     @Autowired
     private COSUtils cosUtils;
-
-    private static final String COS_ROOT_PATH = "https://wbwy-1318322348.cos.ap-guangzhou.myqcloud.com/";
 
 
     /**
@@ -85,6 +77,7 @@ public class FileController {
 
     /**
      * 上传商家头像至服务器，返回url
+     *
      * @param file
      * @return url
      * @throws IOException
@@ -116,6 +109,7 @@ public class FileController {
 
     /**
      * 上传用户头像至服务器，返回url
+     *
      * @param file
      * @return url
      * @throws IOException
@@ -147,6 +141,7 @@ public class FileController {
 
     /**
      * 上传商品图片至服务器，返回url
+     *
      * @param file
      * @return url
      * @throws IOException

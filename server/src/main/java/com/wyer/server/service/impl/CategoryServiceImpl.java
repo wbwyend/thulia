@@ -18,7 +18,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
 
-
     @Override
     public List<CategoryPerformance> getShopPerformanceBySid(Integer sid) {
         return categoryMapper.selectCategoryPerformanceBySid(sid);

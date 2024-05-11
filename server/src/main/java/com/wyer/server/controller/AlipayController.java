@@ -1,7 +1,6 @@
 package com.wyer.server.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
@@ -53,7 +52,7 @@ public class AlipayController {
     private static final String SIGN_TYPE = "RSA2";
 
     /**
-     *服务器ip
+     * 服务器ip
      */
     @Value("${ip:localhost}")
     String ip;
@@ -63,15 +62,14 @@ public class AlipayController {
      */
     @Value("${server.port}")
     String port;
-
+    @Autowired
+    OrderServiceImpl orderService;
     @Resource
     private AlipayConfig alipayConfig;
 
-    @Autowired
-    OrderServiceImpl orderService;
-
     /**
      * 沙箱支付接口
+     *
      * @param oid
      * @param httpResponse
      * @throws Exception
@@ -103,6 +101,7 @@ public class AlipayController {
 
     /**
      * 支付完成反馈接口
+     *
      * @param request
      */
     @AuthAccess

@@ -31,6 +31,7 @@ public class UserController {
 
     /**
      * 用户修改信息
+     *
      * @param user
      * @return
      */
@@ -42,6 +43,7 @@ public class UserController {
 
     /**
      * 用户修改密码
+     *
      * @param password
      * @return User
      */
@@ -53,6 +55,7 @@ public class UserController {
 
     /**
      * 注销用户
+     *
      * @param uid
      * @return Result
      */

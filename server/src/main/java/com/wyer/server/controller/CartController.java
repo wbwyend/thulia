@@ -26,6 +26,7 @@ public class CartController {
 
     /**
      * 添加商品至购物车
+     *
      * @param cart
      * @return Result
      */
@@ -37,6 +38,7 @@ public class CartController {
 
     /**
      * 根据用户id获取购物车信息
+     *
      * @param uid
      * @return List<CartTableRow>
      */
@@ -48,6 +50,7 @@ public class CartController {
 
     /**
      * 从购物车删除一件商品
+     *
      * @param cart
      * @return List<CartTableRow>
      */
@@ -59,6 +62,7 @@ public class CartController {
 
     /**
      * 从购物车删除复数商品
+     *
      * @param carts
      * @return List<CartTableRow>
      */
@@ -70,6 +74,7 @@ public class CartController {
 
     /**
      * 保存购物车的某件商品信息
+     *
      * @param cart
      * @return List<CartTableRow>
      */
@@ -81,6 +86,7 @@ public class CartController {
 
     /**
      * 保存购物车的所有商品信息
+     *
      * @param carts
      * @return List<CartTableRow>
      */

@@ -8,10 +8,10 @@ import com.wyer.server.model.entity.*;
 import com.wyer.server.service.impl.*;
 import com.wyer.server.utils.IPv4Util;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.File;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Function: 登录与注册接口类
@@ -38,6 +38,7 @@ public class WebController {
 
     /**
      * 测试接口
+     *
      * @return null
      */
     @AuthAccess
@@ -53,6 +54,7 @@ public class WebController {
 
     /**
      * 测试接口
+     *
      * @return null
      */
     @UserAccess
@@ -63,6 +65,7 @@ public class WebController {
 
     /**
      * 测试接口
+     *
      * @return null
      */
     @ShopAccess
@@ -73,6 +76,7 @@ public class WebController {
 
     /**
      * 销售登录
+     *
      * @param saler
      * @return
      */
@@ -106,6 +110,7 @@ public class WebController {
 
     /**
      * 用户登录接口
+     *
      * @param user
      * @return User
      */
@@ -139,6 +144,7 @@ public class WebController {
 
     /**
      * 用户注册接口
+     *
      * @param user
      * @return null
      */
@@ -154,6 +160,7 @@ public class WebController {
 
     /**
      * 商家登录接口
+     *
      * @param shop
      * @return Shop
      */
@@ -187,6 +194,7 @@ public class WebController {
 
     /**
      * 商家注册接口
+     *
      * @param shop
      * @return null
      */
@@ -203,6 +211,7 @@ public class WebController {
 
     /**
      * 搜索商品
+     *
      * @param text
      * @return List<Goods>
      */
@@ -211,7 +220,6 @@ public class WebController {
     public Result search(@RequestBody String text) {
         return Result.success(goodsService.search(text));
     }
-
 
 
 }
