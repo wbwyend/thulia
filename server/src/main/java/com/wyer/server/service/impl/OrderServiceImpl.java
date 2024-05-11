@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> delete(Integer oid, Integer uid) {
         orderMapper.updateOrderStatusByOid(oid, "已删除");
         List<PurchaseHistory> purchaseHistoryList = purchaseHistoryMapper.selectPurchaseHistoryByOid(oid);
-        goodsMapper.updateAddSurplusByDeleteOrder(purchaseHistoryList);
+        if(purchaseHistoryList != null && purchaseHistoryList.size() != 0) goodsMapper.updateAddSurplusByDeleteOrder(purchaseHistoryList);
         return orderMapper.selectOrdersByUid(uid);
     }
 }

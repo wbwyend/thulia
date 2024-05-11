@@ -21,19 +21,11 @@ public class COSConfig {
     public COSConfig() {
     }
 
-    public String getSecretId() {
-        return secretId;
-    }
-
     public void setSecretId(String secretId) {
         this.secretId = secretId;
     }
 
     private String secretId;
-
-    public String getSecretKey() {
-        return secretKey;
-    }
 
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;

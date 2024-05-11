@@ -38,7 +38,7 @@ import java.util.UUID;
  **/
 @SpringBootTest
 @AutoConfigureMockMvc
-public class FeatureTest {
+public class FunctionTest {
 
     /*
      * model测试
