@@ -35,16 +35,12 @@ public interface BigDataMapper {
     @Select("select * from user_portrait where uid = #{userId}")
     UserPortrait getUserPortrait(int userId);
 
-    @Select("select uid, gid, count(gid) as score " +
-            "from browse_history_data " +
-            "group by uid, gid " +
-            "order by uid asc, gid asc ")
+    @Select("select * " +
+            "from browse_history_data_count")
     List<UserCFObject> getBrowseHistoryData();
 
-    @Select("select uid, gid, count(gid) as score " +
-            "from purchase_history_data " +
-            "group by uid, gid " +
-            "order by uid asc, gid asc ")
+    @Select("select * " +
+            "from purchase_history_data_count")
     List<UserCFObject> getPurChaseHistoryData();
 
     @Select("select count(*) from user")
